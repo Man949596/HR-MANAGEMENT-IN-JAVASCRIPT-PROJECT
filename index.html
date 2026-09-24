@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workforce - HR Management & Recruiting Solutions</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header id="main-header">
+
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="#">
+                        <img src="hr-logo.png" alt="HR Logo" class="custom-logo-img">
+                    </a>
+                </div>
+
+                <nav class="desktop-nav">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#about" class="nav-link">About Us</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#why-us" class="nav-link">Why Us</a>
+                    <a href="#team" class="nav-link">Team</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                    <a href="#blog" class="nav-link">Blog</a>
+                </nav>
+
+                <div class="header-actions">
+                    <button id="search-btn" title="Search" class="icon-btn">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+
+                    <a href="#signin" class="btn-text">
+                        <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Sign In
+                    </a>
+
+                    <a href="#signup" class="btn btn-teal">
+                        <i class="fa-solid fa-user-plus mr-1.5"></i> Sign Up
+                    </a>
+                </div>
+
+                <div class="mobile-menu-toggle">
+                    <button id="search-btn-mobile" class="icon-btn">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <button id="mobile-menu-btn" aria-label="Toggle Navigation" class="icon-btn"
+                        style="font-size: 1.5rem;">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu hidden">
+            <a href="#home" class="mobile-link active">Home</a>
+            <a href="#about" class="mobile-link">About Us</a>
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#why-us" class="mobile-link">Why Choose Us</a>
+            <a href="#team" class="mobile-link">Team</a>
+            <a href="#pricing" class="mobile-link">Pricing</a>
+            <a href="#blog" class="mobile-link">Blog</a>
+
+            <div class="mobile-actions">
+                <a href="#signin" class="btn btn-subtle w-full text-center">
+                    <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Sign In
+                </a>
+                <a href="#signup" class="btn btn-teal w-full text-center">
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Sign Up
+                </a>
+                <a href="#contact" class="btn btn-gold w-full text-center">
+                    Get A Quote
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div id="search-modal" class="modal-overlay hidden opacity-0">
+        <div class="modal-content">
+            <button id="close-search" class="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <form onsubmit="event.preventDefault(); triggerSearch();" class="search-form">
+                <input type="text" id="search-input" placeholder="Search HR solutions, roles, consulting services...">
+                <button type="submit" class="search-submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="search-hint">Press ESC to close or search keywords like "Executive Search", "Recruitment",
+                "Consulting"</div>
+        </div>
+    </div>
+
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="grid-12 items-center">
+
+                <div class="hero-content">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        Top HR Solution Provider
+                    </div>
+                    <h1 class="hero-title">
+                        Strategic HR for <span class="gradient-text">Sustainable</span> Growth
+                    </h1>
+                    <p class="hero-desc">
+                        Empower your organization with tailored talent acquisition, executive search, and strategic
+                        consulting solutions designed to maximize team performance and speed up hiring.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#services" class="btn btn-gold btn-lg">
+                            Get Started Now <i class="fa-solid fa-arrow-right ml-3"></i>
+                        </a>
+                        <a href="#about" class="btn btn-outline btn-lg">
+                            Learn More
+                        </a>
+                    </div>
+
+                    <div class="hero-trust">
+                        <div class="user-avatars">
+                            <img class="avatar"
+                                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                                alt="User 1" onerror="this.src='https://placehold.co/100x100?text=User'">
+                            <img class="avatar"
+                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+                                alt="User 2" onerror="this.src='https://placehold.co/100x100?text=User'">
+                            <img class="avatar"
+                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+                                alt="User 3" onerror="this.src='https://placehold.co/100x100?text=User'">
+                            <div class="avatar avatar-more">
+                                +2.5k
+                            </div>
+                        </div>
+                        <div class="rating-box">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="rating-text">4.9/5 Rating from over 500+ corporate partners</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-image-wrapper">
+                    <div class="hero-image-container">
+                        <div class="image-accent"></div>
+                        <div class="main-image-box">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
+                                alt="HR Executive Professional"
+                                onerror="this.src='https://placehold.co/600x700/0b322c/ffffff?text=HR+Executive'">
+                        </div>
+
+                        <div class="float-badge float-badge-1 animate-float">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <p class="badge-label">Success Rate</p>
+                                <p class="badge-val">98.5% Placement</p>
+                            </div>
+                        </div>
+
+                        <div class="float-badge float-badge-2">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-user-check"></i>
+                            </div>
+                            <div>
+                                <p class="badge-val-gold">15,000+</p>
+                                <p class="badge-sub">Candidates Matched</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section py-20 bg-white">
+        <div class="container">
+            <div class="grid-12 items-center">
+
+                <div class="col-span-6">
+                    <div class="about-grid">
+                        <div class="about-col">
+                            <img class="img-top"
+                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
+                                alt="Team Discussion" onerror="this.src='https://placehold.co/400x500?text=Team'">
+                            <div class="about-stat-box">
+                                <h3 class="stat-number">15+</h3>
+                                <p class="stat-label">Years of HR Excellence</p>
+                            </div>
+                        </div>
+                        <div class="about-col pt-8">
+                            <img class="img-bottom"
+                                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80"
+                                alt="Executive Meeting"
+                                onerror="this.src='https://placehold.co/400x600?text=Executive'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-6 space-y-6">
+                    <div class="section-tag">
+                        About Workforce HR
+                    </div>
+                    <h2 class="section-title">
+                        Leading the Future of HR & Talent Solutions
+                    </h2>
+                    <p class="section-desc">
+                        We bridge the gap between world-class talent and high-growth organizations. With customized
+                        recruitment methodologies and deep industry expertise, we empower businesses to build resilient,
+                        high-performing teams.
+                    </p>
+
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="feature-title">Compliant & Reliable Processes</h4>
+                                <p class="feature-desc">Adhering strictly to labor regulations and ethical international
+                                    hiring standards.</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fa-solid fa-chart-pie"></i>
+                            </div>
+                            <div>
+                                <h4 class="feature-title">Data-Driven Candidate Matching</h4>
+                                <p class="feature-desc">Utilizing modern AI analytics to pair top-tier talent with ideal
+                                    corporate cultures.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-footer">
+                        <div class="founder-info">
+                            <img class="founder-img"
+                                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=150&q=80"
+                                alt="CEO" onerror="this.src='https://placehold.co/100x100?text=CEO'">
+                            <div>
+                                <h5 class="founder-name">Eleanor Vance</h5>
+                                <p class="founder-role">Founder & Managing Director</p>
+                            </div>
+                        </div>
+                        <a href="#services" class="btn btn-gold btn-sm">
+                            Discover More <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section py-20 bg-light">
+        <div class="container">
+
+            <div class="section-header">
+                <span class="section-tag">
+                    Our Specialized Services
+                </span>
+                <h2 class="section-title">
+                    Empowering Your Workforce with Expert Services
+                </h2>
+                <p class="section-desc">
+                    Tailored HR solutions designed to scale with your business and unlock maximum productivity.
+                </p>
+            </div>
+
+            <div class="grid-4">
+
+                <div class="service-card shadow-card-hover"
+                    onclick="openServiceModal('Executive Search', 'Targeted headhunting services for high-level leadership and C-suite positions worldwide. We identify candidates with proven track records of strategic growth and culture alignment.')">
+                    <div class="space-y-6">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <h3 class="service-title">Executive Search</h3>
+                        <p class="service-desc">
+                            Targeted headhunting services for high-level leadership and C-suite positions worldwide.
+                        </p>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-link-text">Learn More</span>
+                        <div class="service-arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card shadow-card-hover"
+                    onclick="openServiceModal('Talent Acquisition', 'End-to-end hiring strategies to source, screen, and onboard qualified mid-to-senior talent fast. We utilize modern skills auditing to ensure maximum candidate retention.')">
+                    <div class="space-y-6">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <h3 class="service-title">Talent Acquisition</h3>
+                        <p class="service-desc">
+                            End-to-end hiring strategies to source, screen, and onboard qualified mid-to-senior talent
+                            fast.
+                        </p>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-link-text">Learn More</span>
+                        <div class="service-arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card shadow-card-hover"
+                    onclick="openServiceModal('HR Consulting & Strategy', 'Strategic advice on organizational design, legal compliance, international labor law, and HR digital transformation for scaling organizations.')">
+                    <div class="space-y-6">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <h3 class="service-title">HR Consulting</h3>
+                        <p class="service-desc">
+                            Strategic advice on organizational design, legal compliance, and HR digital transformation.
+                        </p>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-link-text">Learn More</span>
+                        <div class="service-arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card shadow-card-hover"
+                    onclick="openServiceModal('Performance Management', 'Developing custom appraisal systems, KPI tracking tools, and employee retention workshops to drive organizational growth and boost team engagement.')">
+                    <div class="space-y-6">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <h3 class="service-title">Performance Mgt</h3>
+                        <p class="service-desc">
+                            Developing appraisal systems and KPI tracking tools to drive employee retention & growth.
+                        </p>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-link-text">Learn More</span>
+                        <div class="service-arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div id="service-modal" class="modal-overlay hidden opacity-0">
+        <div class="modal-card">
+            <button onclick="closeServiceModal()" class="modal-close-dark">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3 id="modal-service-title" class="modal-title">Service Details</h3>
+            <p id="modal-service-desc" class="modal-body">Service description goes here...</p>
+            <div class="pt-4">
+                <a href="#contact" onclick="closeServiceModal()" class="btn btn-gold w-full text-center">
+                    Request Consultation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section id="why-us" class="section dark-section">
+        <div class="container relative z-10">
+            <div class="dark-header">
+                <div>
+                    <span class="badge-dark">
+                        Strategic Solutions
+                    </span>
+                    <h2 class="dark-title">
+                        Overcoming HR Challenges with Proven Excellence
+                    </h2>
+                </div>
+                <p class="dark-desc">
+                    We combine modern recruitment tech with human-centered strategic consulting to keep your talent
+                    acquisition pipeline full, efficient, and aligned.
+                </p>
+            </div>
+
+            <div class="video-box">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80"
+                    alt="Corporate Strategy" class="video-cover"
+                    onerror="this.src='https://placehold.co/1200x500/0b322c/ffffff?text=Strategy+Meeting'">
+                <div class="video-overlay">
+                    <button id="play-video-btn" aria-label="Play Corporate Video" class="play-btn animate-pulse-glow">
+                        <i class="fa-solid fa-play ml-1"></i>
+                    </button>
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <h4 class="stat-val">99%</h4>
+                        <p class="stat-lbl">Client Retention</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 class="stat-val">24 Days</h4>
+                        <p class="stat-lbl">Avg Time-to-Hire</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 class="stat-val">250+</h4>
+                        <p class="stat-lbl">Global Partners</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 class="stat-val">100%</h4>
+                        <p class="stat-lbl">Compliance Standard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="section py-20 bg-white">
+        <div class="container">
+            <div class="grid-12 items-center">
+
+                <div class="col-span-5 relative">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=80"
+                        alt="HR Advisory Session" class="showcase-img"
+                        onerror="this.src='https://placehold.co/600x700?text=HR+Advisory'">
+                    <div class="quote-badge">
+                        <i class="fa-solid fa-quote-left quote-icon"></i>
+                        <p class="quote-text">"Workforce transformed our talent strategy and executive recruitment
+                            within weeks!"</p>
+                    </div>
+                </div>
+
+                <div class="col-span-7 space-y-6">
+                    <span class="section-tag">
+                        Why Choose Workforce
+                    </span>
+                    <h2 class="section-title">
+                        Why Leading Companies Trust Our HR Solutions
+                    </h2>
+                    <p class="section-desc">
+                        We offer customized, scalable recruitment models designed to match the unique speed and culture
+                        of your business operations.
+                    </p>
+
+                    <div class="accordion-list">
+                        <div class="accordion-item">
+                            <button onclick="toggleAccordion(1)" class="accordion-header">
+                                <span class="accordion-title">
+                                    <i class="fa-solid fa-sliders text-gold"></i> Tailored Recruitment Strategies
+                                </span>
+                                <i id="acc-icon-1" class="fa-solid fa-chevron-down accordion-arrow"></i>
+                            </button>
+                            <div id="acc-body-1" class="accordion-body">
+                                <p class="accordion-text">
+                                    We build custom talent mapping roadmaps for startups to Fortune 500 enterprises.
+                                    Each search strategy is specifically calibrated to meet your required skill set,
+                                    timeline, and salary benchmarks.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <button onclick="toggleAccordion(2)" class="accordion-header">
+                                <span class="accordion-title">
+                                    <i class="fa-solid fa-user-gear text-gold"></i> Domain-Specific Senior Consultants
+                                </span>
+                                <i id="acc-icon-2" class="fa-solid fa-chevron-down accordion-arrow"></i>
+                            </button>
+                            <div id="acc-body-2" class="accordion-body">
+                                <p class="accordion-text">
+                                    Our executive recruiters bring over a decade of specialized experience in Tech,
+                                    Finance, Healthcare, and Operations to source candidates who hit the ground running.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button onclick="toggleAccordion(3)" class="accordion-header">
+                                <span class="accordion-title">
+                                    <i class="fa-solid fa-check-double text-gold"></i> 100% Legal & Regulatory
+                                    Protection
+                                </span>
+                                <i id="acc-icon-3" class="fa-solid fa-chevron-down accordion-arrow"></i>
+                            </button>
+                            <div id="acc-body-3" class="accordion-body">
+                                <p class="accordion-text">
+                                    Stay safe from labor law complications. We perform rigorous compliance checks,
+                                    background audits, and contract reviews for local and cross-border hires.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="section py-20 bg-light">
+        <div class="container">
+            <div class="flex-between flex-mobile-col mb-16">
+                <div>
+                    <span class="section-tag">
+                        Our HR Experts
+                    </span>
+                    <h2 class="section-title mt-2">
+                        Meet Our Experienced Team Members
+                    </h2>
+                </div>
+                <a href="#contact" class="link-teal font-extrabold text-sm">
+                    Join Our Growing Team <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <div class="grid-4">
+
+                <div class="team-card shadow-custom">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
+                            alt="Sarah Jenkins" class="team-img"
+                            onerror="this.src='https://placehold.co/400x500?text=Sarah'">
+                        <div class="team-overlay">
+                            <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">Sarah Jenkins</h4>
+                        <p class="team-role">Head of Executive Search</p>
+                    </div>
+                </div>
+
+                <div class="team-card shadow-custom">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80"
+                            alt="David Marcus" class="team-img"
+                            onerror="this.src='https://placehold.co/400x500?text=David'">
+                        <div class="team-overlay">
+                            <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">David Marcus</h4>
+                        <p class="team-role">Senior HR Strategic Consultant</p>
+                    </div>
+                </div>
+
+                <div class="team-card shadow-custom">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80"
+                            alt="Elena Rostova" class="team-img"
+                            onerror="this.src='https://placehold.co/400x500?text=Elena'">
+                        <div class="team-overlay">
+                            <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">Elena Rostova</h4>
+                        <p class="team-role">Talent Acquisition Manager</p>
+                    </div>
+                </div>
+
+                <div class="team-card shadow-custom">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80"
+                            alt="Marcus Vance" class="team-img"
+                            onerror="this.src='https://placehold.co/400x500?text=Marcus'">
+                        <div class="team-overlay">
+                            <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">Marcus Vance</h4>
+                        <p class="team-role">Compliance & Legal Advisor</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="section py-20 bg-white">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">
+                    Transparent Pricing
+                </span>
+                <h2 class="section-title">
+                    Choose A Plan That Suits Your Business
+                </h2>
+                <p class="section-desc">Flexible HR packages optimized for startups, scaling teams, and global
+                    enterprises.</p>
+
+                <div class="pricing-switcher">
+                    <span id="plan-monthly-label" class="switcher-label active">Monthly Billing</span>
+                    <button id="pricing-toggle" onclick="togglePricing()" class="toggle-switch">
+                        <div id="toggle-dot" class="toggle-dot"></div>
+                    </button>
+                    <span id="plan-yearly-label" class="switcher-label">Yearly Billing <span class="discount-badge">Save
+                            20%</span></span>
+                </div>
+            </div>
+
+            <div class="grid-3 items-center">
+
+                <div class="price-card">
+                    <div class="price-header">
+                        <span class="plan-tag">Starter</span>
+                        <h3 class="plan-title">Basic Recruitment</h3>
+                        <div class="price-box">
+                            <span id="price-starter" class="price-num">$499</span>
+                            <span id="period-starter" class="price-period">/ per placement</span>
+                        </div>
+                    </div>
+                    <ul class="plan-features">
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> Up to 3 Candidate Interviews
+                        </li>
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> Standard Background Checks
+                        </li>
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> 30-Day Replacement Guarantee
+                        </li>
+                        <li class="feature-disabled"><i class="fa-solid fa-circle-xmark"></i> C-Suite Headhunting Access
+                        </li>
+                        <li class="feature-disabled"><i class="fa-solid fa-circle-xmark"></i> Dedicated Strategic
+                            Consultant</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-teal w-full text-center">
+                        Choose Basic Plan
+                    </a>
+                </div>
+                <div class="price-card price-card-popular">
+                    <div class="popular-badge">
+                        Most Popular Choice
+                    </div>
+                    <div class="price-header border-teal">
+                        <span class="plan-tag-gold">Professional</span>
+                        <h3 class="plan-title text-white">Growth HR Suite</h3>
+                        <div class="price-box">
+                            <span id="price-growth" class="price-num-gold">$999</span>
+                            <span id="period-growth" class="price-period-light">/ monthly retainer</span>
+                        </div>
+                    </div>
+                    <ul class="plan-features text-light">
+                        <li class="feature-active-gold"><i class="fa-solid fa-circle-check"></i> Unlimited Mid-Level
+                            Hires</li>
+                        <li class="feature-active-gold"><i class="fa-solid fa-circle-check"></i> Full Background & Skill
+                            Audit</li>
+                        <li class="feature-active-gold"><i class="fa-solid fa-circle-check"></i> 90-Day Replacement
+                            Guarantee</li>
+                        <li class="feature-active-gold"><i class="fa-solid fa-circle-check"></i> Performance Review
+                            Systems</li>
+                        <li class="feature-disabled-dark"><i class="fa-solid fa-circle-xmark"></i> Executive Boardroom
+                            Consulting</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-gold btn-lg w-full text-center">
+                        Choose Growth Plan
+                    </a>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-header">
+                        <span class="plan-tag">Custom</span>
+                        <h3 class="plan-title">Enterprise HR</h3>
+                        <div class="price-box">
+                            <span id="price-enterprise" class="price-num">$1,899</span>
+                            <span id="period-enterprise" class="price-period">/ custom retainer</span>
+                        </div>
+                    </div>
+                    <ul class="plan-features">
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> C-Suite Executive Search
+                            Included</li>
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> Global HR Compliance &
+                            Auditing</li>
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> 180-Day Guarantee Period
+                        </li>
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> Dedicated HR Consultant Team
+                        </li>
+                        <li class="feature-active"><i class="fa-solid fa-circle-check"></i> 24/7 Priority SLA Support
+                        </li>
+                    </ul>
+                    <a href="#contact" class="btn btn-teal w-full text-center">
+                        Choose Enterprise Plan
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section dark-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-dark">
+                    Client Testimonials
+                </span>
+                <h2 class="dark-title">
+                    Trusted By Top Business Leaders
+                </h2>
+            </div>
+
+            <div class="testimonial-box">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Workforce filled 5 critical VP roles for our tech expansion in under 3 weeks. Their talent
+                        screening and executive matching precision exceeded all our corporate targets!"
+                    </p>
+                    <div class="author-box">
+                        <img class="author-img"
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                            alt="Amanda Sterling" onerror="this.src='https://placehold.co/100x100?text=Amanda'">
+                        <div>
+                            <h5 class="author-name">Amanda Sterling</h5>
+                            <p class="author-title">Chief Operations Officer, Nexa Tech Global</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-slide">
+                    <div class="testimonial-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Their HR compliance overhaul saved our logistics company from potential legal pitfalls during
+                        international expansion. Highly professional and deeply knowledgeable advisors."
+                    </p>
+                    <div class="author-box">
+                        <img class="author-img"
+                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+                            alt="Robert Vance" onerror="this.src='https://placehold.co/100x100?text=Robert'">
+                        <div>
+                            <h5 class="author-name">Robert Vance</h5>
+                            <p class="author-title">Founder & Managing Director, Apex Logistics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-slide">
+                    <div class="testimonial-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "The best recruitment partner we've collaborated with in over a decade. Their growth
+                        retainership plan provided total peace of mind for our engineering team hires."
+                    </p>
+                    <div class="author-box">
+                        <img class="author-img"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+                            alt="Jessica Miller" onerror="this.src='https://placehold.co/100x100?text=Jessica'">
+                        <div>
+                            <h5 class="author-name">Jessica Miller</h5>
+                            <p class="author-title">VP of People & Culture, FinTech Sol</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-controls">
+                    <div class="dots-wrapper">
+                        <span onclick="setSlide(0)" class="slide-dot active"></span>
+                        <span onclick="setSlide(1)" class="slide-dot"></span>
+                        <span onclick="setSlide(2)" class="slide-dot"></span>
+                    </div>
+                    <div class="arrows-wrapper">
+                        <button onclick="prevSlide()" aria-label="Previous Testimonial" class="arrow-btn">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="nextSlide()" aria-label="Next Testimonial" class="arrow-btn">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog" class="section py-20 bg-white">
+        <div class="container">
+            <div class="flex-between flex-mobile-col mb-16">
+                <div>
+                    <span class="section-tag">
+                        Latest HR Insights
+                    </span>
+                    <h2 class="section-title mt-2">
+                        Everything You Need to Know About HR
+                    </h2>
+                </div>
+                <a href="#blog" class="link-teal font-extrabold text-sm">
+                    View All Articles <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <div class="grid-3">
+
+                <article class="blog-card shadow-custom">
+                    <div class="blog-content">
+                        <div class="blog-img-box">
+                            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=80"
+                                alt="Blog 1" class="blog-img"
+                                onerror="this.src='https://placehold.co/500x300?text=Blog+1'">
+                            <span class="blog-badge">Recruitment</span>
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date"><i class="fa-regular fa-calendar mr-2"></i>Sept 20, 2026</span>
+                            <h3 class="blog-title">
+                                Key Hiring Trends Shaping Executive Search in 2026
+                            </h3>
+                            <p class="blog-excerpt">
+                                Discover how AI screening and remote leadership models are reshaping candidate selection
+                                for C-suite positions.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="blog-footer">
+                        <button
+                            onclick="readArticle('Key Hiring Trends Shaping Executive Search in 2026', 'In this in-depth report, we analyze the shift towards data-backed candidate sourcing, remote leadership assessments, and retention-focused compensation structures for executive roles.')"
+                            class="btn-read">
+                            Read Article <i class="fa-solid fa-arrow-right ml-2" style="font-size: 10px;"></i>
+                        </button>
+                    </div>
+                </article>
+                <article class="blog-card shadow-custom">
+                    <div class="blog-content">
+                        <div class="blog-img-box">
+                            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80"
+                                alt="Blog 2" class="blog-img"
+                                onerror="this.src='https://placehold.co/500x300?text=Blog+2'">
+                            <span class="blog-badge">Culture</span>
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date"><i class="fa-regular fa-calendar mr-2"></i>Sept 15, 2026</span>
+                            <h3 class="blog-title">
+                                How to Build a High-Retention Corporate Culture
+                            </h3>
+                            <p class="blog-excerpt">
+                                Practical strategies and employee engagement workflows that cut annual staff turnover in
+                                half.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="blog-footer">
+                        <button
+                            onclick="readArticle('How to Build a High-Retention Corporate Culture', 'Retention starts at onboarding. Learn how peer mentoring, transparent feedback loops, and career pathing frameworks keep top talent engaged for the long haul.')"
+                            class="btn-read">
+                            Read Article <i class="fa-solid fa-arrow-right ml-2" style="font-size: 10px;"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="blog-card shadow-custom">
+                    <div class="blog-content">
+                        <div class="blog-img-box">
+                            <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80"
+                                alt="Blog 3" class="blog-img"
+                                onerror="this.src='https://placehold.co/500x300?text=Blog+3'">
+                            <span class="blog-badge">Compliance</span>
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date"><i class="fa-regular fa-calendar mr-2"></i>Sept 10, 2026</span>
+                            <h3 class="blog-title">
+                                Navigating Global Labor Compliance for Remote Teams
+                            </h3>
+                            <p class="blog-excerpt">
+                                A comprehensive guide to avoiding international tax liabilities and cross-border labor
+                                issues.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="blog-footer">
+                        <button
+                            onclick="readArticle('Navigating Global Labor Compliance for Remote Teams', 'Managing international teams requires strict adherence to local labor laws, benefits standards, and tax withholdings. Here is our essential compliance checklist.')"
+                            class="btn-read">
+                            Read Article <i class="fa-solid fa-arrow-right ml-2" style="font-size: 10px;"></i>
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <div id="article-modal" class="modal-overlay hidden opacity-0">
+        <div class="modal-card modal-lg">
+            <button onclick="closeArticleModal()" class="modal-close-dark">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <span class="badge-subtle">Workforce Insights</span>
+            <h3 id="modal-article-title" class="modal-title">Article Title</h3>
+            <div id="modal-article-body" class="modal-body space-y-3">Article body text...</div>
+            <div class="modal-footer-btn">
+                <button onclick="closeArticleModal()" class="btn btn-teal btn-sm">
+                    Close Article
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact" class="section py-20 bg-light">
+        <div class="container">
+            <div class="contact-card">
+
+                <div class="form-box space-y-6">
+                    <span class="section-tag">
+                        Get In Touch
+                    </span>
+                    <h2 class="section-title">Have Questions? Request A Free Quote</h2>
+                    <p class="form-desc">Fill out the form below and our HR consulting team will get back to you within
+                        24 hours.</p>
+
+                    <form id="contact-form" class="space-y-4 pt-2">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Your Full Name *</label>
+                                <input type="text" required placeholder="John Doe" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Your Corporate Email *</label>
+                                <input type="email" required placeholder="john@company.com" class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Service Needed</label>
+                                <select class="form-select">
+                                    <option>Executive Search</option>
+                                    <option>Talent Acquisition</option>
+                                    <option>HR Strategic Consulting</option>
+                                    <option>Performance Management</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Preferred Consultation Date</label>
+                                <input type="date" class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Project Summary / Requirements</label>
+                            <textarea rows="4" required
+                                placeholder="Tell us about your team size, hiring goals, or consulting needs..."
+                                class="form-textarea"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-gold btn-lg w-full">
+                            Submit Request Now <i class="fa-solid fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info-box">
+                    <div class="relative z-10 space-y-8">
+                        <h3 class="info-title">Contact Information</h3>
+
+                        <div class="space-y-6">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <h5 class="info-lbl">Office Headquarters</h5>
+                                    <p class="info-val">452 Wall Street, 12th Floor, New York, NY</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h5 class="info-lbl">Call Directly</h5>
+                                    <p class="info-val">+1 (800) 456-7890</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h5 class="info-lbl">Email Inquiry</h5>
+                                    <p class="info-val">support@workforcehr.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-footer">
+                        <p class="info-note">Need urgent recruitment assistance? Our talent advisors are live Mon-Fri
+                            8am-6pm EST.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand space-y-4">
+                    <a href="#" class="logo flex-center" style="justify-content: flex-start;">
+                        <span class="logo-text text-white">Work<span class="text-gold">force</span></span>
+                    </a>
+                    <p class="footer-desc">
+                        Leading global HR advisory and executive recruitment firm helping organizations scale
+                        high-performing teams with confidence.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" class="footer-social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-btn"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="footer-social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Our Services</a></li>
+                        <li><a href="#why-us">Why Choose Us</a></li>
+                        <li><a href="#team">Meet Our Team</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Executive Search</a></li>
+                        <li><a href="#services">Talent Sourcing</a></li>
+                        <li><a href="#services">HR Consulting</a></li>
+                        <li><a href="#services">Performance Audit</a></li>
+                        <li><a href="#services">Global Compliance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Newsletter</h4>
+                    <p class="footer-desc mb-3">Subscribe to receive monthly HR market reports and executive insights.
+                    </p>
+                    <form id="newsletter-form" class="space-y-2">
+                        <input type="email" placeholder="Your email address" required class="newsletter-input">
+                        <button type="submit" class="btn btn-gold btn-sm w-full">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Workforce HR Management. All rights reserved.</p>
+                <div class="flex-center space-x-6">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Preferences</a>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+
+    <script src="script.js"></script>
+</body>
+
+</html>
