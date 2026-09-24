@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Workforce HR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Create Account</h2>
+                <p>Join Workforce HR Management Platform</p>
+            </div>
+
+            <form id="signup-form" class="space-y-4">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="John Doe" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Corporate Email</label>
+                    <input type="email" id="signup-email" required placeholder="john@company.com" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="signup-password" required placeholder="••••••••" class="form-input">
+                </div>
+
+                <button type="submit" class="btn btn-teal btn-lg w-full">
+                    Create Account <i class="fa-solid fa-user-plus ml-2"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="signin.html" class="auth-link font-bold">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

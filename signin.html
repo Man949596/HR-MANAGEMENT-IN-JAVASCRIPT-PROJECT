@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Workforce HR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to access your HR Management Dashboard</p>
+            </div>
+
+            <form id="signin-form" class="space-y-4">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="signin-email" required placeholder="admin@workforce.com" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="signin-password" required placeholder="••••••••" class="form-input">
+                </div>
+
+                <div class="flex-between">
+                    <label class="checkbox-label">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="auth-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-gold btn-lg w-full">
+                    Sign In <i class="fa-solid fa-right-to-bracket ml-2"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="signup.html" class="auth-link font-bold">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
