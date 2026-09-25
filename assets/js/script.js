@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', function () { 
         if (window.scrollY > 40) { 
