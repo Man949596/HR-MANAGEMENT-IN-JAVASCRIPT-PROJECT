@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="attendance.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-square-poll-vertical"></i> Portal
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" data-tab="attendance">
+                <i class="fa-solid fa-calendar-check"></i> Attendance & Leave
+            </li>
+            <li class="nav-item" data-tab="payslips">
+                <i class="fa-solid fa-file-invoice-dollar"></i> Pay Slips
+            </li>
+            <li class="nav-item" data-tab="projects">
+                <i class="fa-solid fa-diagram-project"></i> My Projects
+            </li>
+            <li class="nav-item" data-tab="settings">
+                <i class="fa-solid fa-gear"></i> Account Settings
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+
+        <section id="attendance" class="content-section active">
+            <h1>Attendance & Leave</h1>
+            <div class="stats-grid">
+                <div class="card">
+                    <h3>Present Days</h3>
+                    <p class="stat-number">22</p>
+                </div>
+                <div class="card">
+                    <h3>Leave Balance</h3>
+                    <p class="stat-number">5 Days</p>
+                </div>
+            </div>
+            <div class="card table-card">
+                <h2>Recent Leave Requests</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12 Aug 2026</td>
+                            <td>Casual Leave</td>
+                            <td>Personal Work</td>
+                            <td><span class="badge approved">Approved</span></td>
+                        </tr>
+                        <tr>
+                            <td>01 Sep 2026</td>
+                            <td>Sick Leave</td>
+                            <td>Fever</td>
+                            <td><span class="badge pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="payslips" class="content-section">
+            <h1>Pay Slips</h1>
+            <div class="card table-card">
+                <h2>Monthly Statements</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Gross Salary</th>
+                            <th>Net Pay</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>August 2026</td>
+                            <td>₹60,000</td>
+                            <td>₹54,000</td>
+                            <td><button class="btn-action"><i class="fa-solid fa-download"></i> Download</button></td>
+                        </tr>
+                        <tr>
+                            <td>July 2026</td>
+                            <td>₹60,000</td>
+                            <td>₹54,000</td>
+                            <td><button class="btn-action"><i class="fa-solid fa-download"></i> Download</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="projects" class="content-section">
+            <h1>My Projects</h1>
+            <div class="project-grid">
+                <div class="card project-card">
+                    <h3>SHIVALIK Building Video Project</h3>
+                    <p>Drone footage enhancement and 3D architectural progress rendering.</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%;"></div>
+                    </div>
+                    <span class="status">Progress: 75%</span>
+                </div>
+                <div class="card project-card">
+                    <h3>Inventory Management System</h3>
+                    <p>Web application for tracking stock levels and automatic pricing calculation.</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 100%;"></div>
+                    </div>
+                    <span class="status">Progress: Completed</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="settings" class="content-section">
+            <h1>Account Settings</h1>
+            <div class="card form-card">
+                <h2>Profile Details</h2>
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="username">Full Name</label>
+                        <input type="text" id="username" value="User">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" value="user@example.com">
+                    </div>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../employee-dashboard/attendance.js"></script>
+</body>
+
+</html>

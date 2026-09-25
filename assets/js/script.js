@@ -94,29 +94,29 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Escape') closeSearchModal(); 
     });
 
-    const contactForm = document.getElementById('contact-form'); //[cite: 4]
-    if (contactForm) { //[cite: 4]
-        contactForm.addEventListener('submit', function (e) { //[cite: 4]
-            e.preventDefault(); //[cite: 4]
-            showToast('Thank You!', 'Your quote request has been sent successfully. Our team will reach out shortly.'); //[cite: 4]
-            contactForm.reset(); //[cite: 4]
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) { 
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault(); 
+            showToast('Thank You!', 'Your quote request has been sent successfully. Our team will reach out shortly.'); 
+            contactForm.reset();
         });
     }
 
-    const newsletterForm = document.getElementById('newsletter-form'); //[cite: 4]
-    if (newsletterForm) { //[cite: 4]
-        newsletterForm.addEventListener('submit', function (e) { //[cite: 4]
-            e.preventDefault(); //[cite: 4]
-            showToast('Subscribed!', 'You have been subscribed to our monthly HR Insights.'); //[cite: 4]
-            newsletterForm.reset(); //[cite: 4]
+    const newsletterForm = document.getElementById('newsletter-form'); 
+    if (newsletterForm) { 
+        newsletterForm.addEventListener('submit', function (e) { 
+            e.preventDefault();
+            showToast('Subscribed!', 'You have been subscribed to our monthly HR Insights.');
+            newsletterForm.reset();
         });
     }
 
-    const playVideoBtn = document.getElementById('play-video-btn'); //[cite: 4]
-    if (playVideoBtn) { //[cite: 4]
-        playVideoBtn.addEventListener('click', function () { //[cite: 4]
-            const videoModal = document.createElement('div'); //[cite: 4]
-            videoModal.className = 'fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4'; //[cite: 4]
+    const playVideoBtn = document.getElementById('play-video-btn'); 
+    if (playVideoBtn) { 
+        playVideoBtn.addEventListener('click', function () {
+            const videoModal = document.createElement('div'); 
+            videoModal.className = 'fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4'; 
             videoModal.innerHTML = `
                 <div class="bg-white rounded-3xl p-6 max-w-2xl w-full text-center space-y-4 relative shadow-2xl">
                     <button id="close-video-modal" class="absolute top-4 right-4 text-gray-500 hover:text-black text-2xl">
@@ -129,20 +129,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p class="text-xs text-gray-400 mt-1">Discover how our executive recruitment engines drive corporate growth.</p>
                     </div>
                 </div>
-            `; //[cite: 4]
-            document.body.appendChild(videoModal); //[cite: 4]
+            `;
+            document.body.appendChild(videoModal); 
 
-            document.getElementById('close-video-modal').addEventListener('click', () => videoModal.remove()); //[cite: 4]
-            videoModal.addEventListener('click', (e) => { //[cite: 4]
-                if (e.target === videoModal) videoModal.remove(); //[cite: 4]
+            document.getElementById('close-video-modal').addEventListener('click', () => videoModal.remove()); 
+            videoModal.addEventListener('click', (e) => {               
+                if (e.target === videoModal) videoModal.remove(); 
             });
         });
     }
 
 });
 
-function showToast(title, message) { //[cite: 4]
-    const alertBox = document.createElement('div'); //[cite: 4]
+function showToast(title, message) { 
+    const alertBox = document.createElement('div'); 
     alertBox.className = 'fixed bottom-6 right-6 bg-tealDark text-white border-2 border-goldAccent p-4 sm:p-5 rounded-2xl shadow-2xl z-50 flex items-center gap-4 transition-all duration-500 transform translate-y-10 opacity-0 max-w-sm'; //[cite: 4]
     alertBox.innerHTML = `
         <div class="w-10 h-10 rounded-full bg-goldAccent text-tealDeep flex items-center justify-center font-bold text-lg flex-shrink-0">
@@ -152,127 +152,128 @@ function showToast(title, message) { //[cite: 4]
             <h5 class="text-xs font-bold text-goldAccent uppercase tracking-wider">${title}</h5>
             <p class="text-xs text-gray-200 mt-0.5 leading-tight">${message}</p>
         </div>
-    `; //[cite: 4]
-    document.body.appendChild(alertBox); //[cite: 4]
+    `; 
+    document.body.appendChild(alertBox); 
 
-    setTimeout(() => alertBox.classList.remove('translate-y-10', 'opacity-0'), 50); //[cite: 4]
-    setTimeout(() => { //[cite: 4]
-        alertBox.classList.add('translate-y-10', 'opacity-0'); //[cite: 4]
-        setTimeout(() => alertBox.remove(), 500); //[cite: 4]
+    setTimeout(() => alertBox.classList.remove('translate-y-10', 'opacity-0'), 50); 
+    setTimeout(() => { 
+        alertBox.classList.add('translate-y-10', 'opacity-0'); 
+        setTimeout(() => alertBox.remove(), 500); 
     }, 4000);
 }
 
-function triggerSearch() { //[cite: 4]
-    const query = document.getElementById('search-input').value; //[cite: 4]
-    if (query.trim()) { //[cite: 4]
-        showToast('Search Triggered', `Searching for: "${query}"...`); //[cite: 4]
-        document.getElementById('search-modal').classList.add('opacity-0'); //[cite: 4]
-        setTimeout(() => document.getElementById('search-modal').classList.add('hidden'), 300); //[cite: 4]
+function triggerSearch() { 
+    const query = document.getElementById('search-input').value;
+    if (query.trim()) {
+        showToast('Search Triggered', `Searching for: "${query}"...`);
+        document.getElementById('search-modal').classList.add('opacity-0'); 
+        setTimeout(() => document.getElementById('search-modal').classList.add('hidden'), 300); 
     }
 }
 
-function toggleAccordion(id) { //[cite: 4]
-    const body = document.getElementById(`acc-body-${id}`); //[cite: 4]
-    const icon = document.getElementById(`acc-icon-${id}`); //[cite: 4]
-    const isActive = body.classList.contains('active'); //[cite: 4]
+function toggleAccordion(id) {
+    const body = document.getElementById(`acc-body-${id}`); 
+    const icon = document.getElementById(`acc-icon-${id}`); 
+    const isActive = body.classList.contains('active'); 
 
-    for (let i = 1; i <= 3; i++) { //[cite: 4]
-        const b = document.getElementById(`acc-body-${i}`); //[cite: 4]
-        const ic = document.getElementById(`acc-icon-${i}`); //[cite: 4]
-        if (b) b.classList.remove('active'); //[cite: 4]
-        if (ic) ic.classList.remove('rotate-180'); //[cite: 4]
+    for (let i = 1; i <= 3; i++) {
+        const b = document.getElementById(`acc-body-${i}`);
+        const ic = document.getElementById(`acc-icon-${i}`); 
+        if (b) b.classList.remove('active'); 
+        if (ic) ic.classList.remove('rotate-180'); 
     }
 
-    if (!isActive) { //[cite: 4]
-        body.classList.add('active'); //[cite: 4]
-        icon.classList.add('rotate-180'); //[cite: 4]
+    if (!isActive) { 
+        body.classList.add('active'); 
+        icon.classList.add('rotate-180'); 
     }
 }
 
-function openServiceModal(title, desc) { //[cite: 4]
-    document.getElementById('modal-service-title').innerText = title; //[cite: 4]
-    document.getElementById('modal-service-desc').innerText = desc; //[cite: 4]
-    const modal = document.getElementById('service-modal'); //[cite: 4]
-    modal.classList.remove('hidden'); //[cite: 4]
-    setTimeout(() => modal.classList.remove('opacity-0'), 10); //[cite: 4]
+function openServiceModal(title, desc) { 
+    document.getElementById('modal-service-title').innerText = title; 
+    document.getElementById('modal-service-desc').innerText = desc; 
+    const modal = document.getElementById('service-modal');
+    modal.classList.remove('hidden'); 
+    setTimeout(() => modal.classList.remove('opacity-0'), 10); 
 }
 
-function closeServiceModal() { //[cite: 4]
-    const modal = document.getElementById('service-modal'); //[cite: 4]
-    modal.classList.add('opacity-0'); //[cite: 4]
-    setTimeout(() => modal.classList.add('hidden'), 300); //[cite: 4]
+function closeServiceModal() {
+    const modal = document.getElementById('service-modal');
+    modal.classList.add('opacity-0'); 
+    setTimeout(() => modal.classList.add('hidden'), 300); 
 }
 
-function readArticle(title, text) { //[cite: 4]
-    document.getElementById('modal-article-title').innerText = title; //[cite: 4]
-    document.getElementById('modal-article-body').innerText = text; //[cite: 4]
-    const modal = document.getElementById('article-modal'); //[cite: 4]
-    modal.classList.remove('hidden'); //[cite: 4]
-    setTimeout(() => modal.classList.remove('opacity-0'), 10); //[cite: 4]
+function readArticle(title, text) {
+    document.getElementById('modal-article-title').innerText = title;
+    document.getElementById('modal-article-body').innerText = text; 
+    const modal = document.getElementById('article-modal');
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.classList.remove('opacity-0'), 10);
 }
 
-function closeArticleModal() { //[cite: 4]
-    const modal = document.getElementById('article-modal'); //[cite: 4]
-    modal.classList.add('opacity-0'); //[cite: 4]
-    setTimeout(() => modal.classList.add('hidden'), 300); //[cite: 4]
+function closeArticleModal() {
+    const modal = document.getElementById('article-modal');
+    modal.classList.add('opacity-0'); 
+    setTimeout(() => modal.classList.add('hidden'), 300);
 }
 
-let isYearly = false; //[cite: 4]
-function togglePricing() { //[cite: 4]
-    isYearly = !isYearly; //[cite: 4]
-    const toggleDot = document.getElementById('toggle-dot'); //[cite: 4]
-    const monthlyLabel = document.getElementById('plan-monthly-label'); //[cite: 4]
-    const yearlyLabel = document.getElementById('plan-yearly-label'); //[cite: 4]
+let isYearly = false; 
+function togglePricing() { 
+    isYearly = !isYearly;
+    const toggleDot = document.getElementById('toggle-dot'); 
+    const monthlyLabel = document.getElementById('plan-monthly-label'); 
+    const yearlyLabel = document.getElementById('plan-yearly-label'); 
 
-    if (isYearly) { //[cite: 4]
-        toggleDot.classList.add('translate-x-6'); //[cite: 4]
-        monthlyLabel.classList.replace('text-tealDark', 'text-gray-400'); //[cite: 4]
-        yearlyLabel.classList.replace('text-gray-400', 'text-tealDark'); //[cite: 4]
+    if (isYearly) { 
+        toggleDot.classList.add('translate-x-6'); 
+        monthlyLabel.classList.replace('text-tealDark', 'text-gray-400');
+        yearlyLabel.classList.replace('text-gray-400', 'text-tealDark'); 
 
-        document.getElementById('price-starter').innerText = '$399'; //[cite: 4]
-        document.getElementById('period-starter').innerText = '/ month (billed yearly)'; //[cite: 4]
+        document.getElementById('price-starter').innerText = '$399'; 
+        document.getElementById('period-starter').innerText = '/ month (billed yearly)'; 
         
-        document.getElementById('price-growth').innerText = '$799'; //[cite: 4]
-        document.getElementById('period-growth').innerText = '/ month (billed yearly)'; //[cite: 4]
+        document.getElementById('price-growth').innerText = '$799'; 
+        document.getElementById('period-growth').innerText = '/ month (billed yearly)'; 
         
-        document.getElementById('price-enterprise').innerText = '$1,499'; //[cite: 4]
-        document.getElementById('period-enterprise').innerText = '/ month (billed yearly)'; //[cite: 4]
+        document.getElementById('price-enterprise').innerText = '$1,499'; 
+        document.getElementById('period-enterprise').innerText = '/ month (billed yearly)'; 
     } else {
-        toggleDot.classList.remove('translate-x-6'); //[cite: 4]
-        monthlyLabel.classList.replace('text-gray-400', 'text-tealDark'); //[cite: 4]
-        yearlyLabel.classList.replace('text-tealDark', 'text-gray-400'); //[cite: 4]
+        toggleDot.classList.remove('translate-x-6'); 
+        monthlyLabel.classList.replace('text-gray-400', 'text-tealDark');
+        yearlyLabel.classList.replace('text-tealDark', 'text-gray-400'); 
 
-        document.getElementById('price-starter').innerText = '$499'; //[cite: 4]
-        document.getElementById('period-starter').innerText = '/ per placement'; //[cite: 4]
+        document.getElementById('price-starter').innerText = '$499'; 
+        document.getElementById('period-starter').innerText = '/ per placement'; 
         
-        document.getElementById('price-growth').innerText = '$999'; //[cite: 4]
-        document.getElementById('period-growth').innerText = '/ monthly retainer'; //[cite: 4]
+        document.getElementById('price-growth').innerText = '$999';
+        document.getElementById('period-growth').innerText = '/ monthly retainer';
         
-        document.getElementById('price-enterprise').innerText = '$1,899'; //[cite: 4]
-        document.getElementById('period-enterprise').innerText = '/ custom retainer'; //[cite: 4]
+        document.getElementById('price-enterprise').innerText = '$1,899';
+        document.getElementById('period-enterprise').innerText = '/ custom retainer'; 
     }
 }
 
-let currentSlide = 0; //[cite: 4]
-const slides = document.querySelectorAll('.testimonial-slide'); //[cite: 4]
-const dots = document.querySelectorAll('.slide-dot'); //[cite: 4]
+let currentSlide = 0; 
+const slides = document.querySelectorAll('.testimonial-slide'); 
+const dots = document.querySelectorAll('.slide-dot'); 
 
-function setSlide(index) { //[cite: 4]
-    slides[currentSlide].classList.remove('active'); //[cite: 4]
-    dots[currentSlide].classList.replace('bg-goldAccent', 'bg-tealLight'); //[cite: 4]
+function setSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.replace('bg-goldAccent', 'bg-tealLight');
     
-    currentSlide = index; //[cite: 4]
+    currentSlide = index; 
     
-    slides[currentSlide].classList.add('active'); //[cite: 4]
-    dots[currentSlide].classList.replace('bg-tealLight', 'bg-goldAccent'); //[cite: 4]
+    slides[currentSlide].classList.add('active'); 
+    dots[currentSlide].classList.replace('bg-tealLight', 'bg-goldAccent'); 
 }
 
-function nextSlide() { //[cite: 4]
-    let next = (currentSlide + 1) % slides.length; //[cite: 4]
-    setSlide(next); //[cite: 4]
+function nextSlide() { 
+    let next = (currentSlide + 1) % slides.length; 
+    setSlide(next); 
 }
 
-function prevSlide() { //[cite: 4]
-    let prev = (currentSlide - 1 + slides.length) % slides.length; //[cite: 4]
-    setSlide(prev); //[cite: 4]
+function prevSlide() { 
+    let prev = (currentSlide - 1 + slides.length) % slides.length;
+    setSlide(prev); 
 }
+
