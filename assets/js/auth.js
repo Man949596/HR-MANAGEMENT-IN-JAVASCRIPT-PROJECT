@@ -1,52 +1,124 @@
-
 document.addEventListener("DOMContentLoaded", function () {
-
-    const signinForm = document.getElementById("signin-form");
-    if (signinForm) {
-        signinForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const email = document.getElementById("signin-email").value;
-            const role = document.getElementById("signin-role").value;
-
-            localStorage.setItem("userRole", role);
-            localStorage.setItem("userEmail", email);
-
-            if (role === "admin") {
-                window.location.href = "admin-dashboard.html";
+    function showAlert(message, type = "error") {
+        const alertBox = document.getElementById("auth-alert");
+        if (alertBox) {
+            alertBox.style.display = "block";
+            alertBox.textContent = message;
+            if (type === "success") {
+                alertBox.style.backgroundColor = "#d4edda";
+                alertBox.style.color = "#155724";
+                alertBox.style.border = "1px solid #c3e6cb";
             } else {
-                window.location.href = "../employee-dashboard/index.html";
+                alertBox.style.backgroundColor = "#f8d7da";
+                alertBox.style.color = "#721c24";
+                alertBox.style.border = "1px solid #f5c6cb";
             }
-        });
+        } else {
+            alert(message);
+        }
     }
 
     const signupForm = document.getElementById("signup-form");
     if (signupForm) {
         signupForm.addEventListener("submit", function (e) {
             e.preventDefault();
-            const name = document.getElementById("signup-name").value;
-            const email = document.getElementById("signup-email").value;
+
+            const name = document.getElementById("signup-name").value.trim();
+            const email = document
+                .getElementById("signup-email")
+                .value.trim()
+                .toLowerCase();
             const role = document.getElementById("signup-role").value;
+            const password = document.getElementById("signup-password").value;
 
-            localStorage.setItem("userName", name);
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("userRole", role);
+            let users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
 
-            alert("Account created successfully! Redirecting to dashboard...");
-
-            if (role === "admin") {
-                window.location.href = "admin-dashboard.html";
-            } else {
-                window.location.href = "../employee-dashboard/index.html";
+            const userExists = users.some((user) => user.email === email);
+            if (userExists) {
+                showAlert("This email is already registered! Please sign in.", "error");
+                return;
             }
+            const newUser = {
+                name: name,
+                email: email,
+                role: role,
+                password: password,
+            };
+
+            users.push(newUser);
+            localStorage.setItem("registeredUsers", JSON.stringify(users));
+
+            localStorage.setItem(
+                "signupSuccess",
+                "Account created successfully! Please sign in with your credentials.",
+            );
+
+            window.location.href = "signin.html";
         });
     }
 
+    const signinForm = document.getElementById("signin-form");
+    if (signinForm) {
+        const signupSuccessMsg = localStorage.getItem("signupSuccess");
+        if (signupSuccessMsg) {
+            showAlert(signupSuccessMsg, "success");
+            localStorage.removeItem("signupSuccess");
+        }
+
+        signinForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const email = document
+                .getElementById("signin-email")
+                .value.trim()
+                .toLowerCase();
+            const password = document.getElementById("signin-password").value;
+            const selectedRole = document.getElementById("signin-role").value;
+
+            let users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+
+            const foundUser = users.find(
+                (u) => u.email === email && u.password === password,
+            );
+
+            if (!foundUser) {
+                showAlert(
+                    "Invalid email or password! Please check or sign up first.",
+                    "error",
+                );
+                return;
+            }
+
+            if (foundUser.role !== selectedRole) {
+                showAlert(
+                    `This account is registered as '${foundUser.role.toUpperCase()}'. Please select the correct role.`,
+                    "error",
+                );
+                return;
+            }
+            localStorage.setItem("userRole", foundUser.role);
+            localStorage.setItem("userEmail", foundUser.email);
+            localStorage.setItem("userName", foundUser.name);
+            localStorage.setItem("isLoggedIn", "true");
+
+            showAlert("Login successful! Redirecting...", "success");
+
+            setTimeout(() => {
+                if (foundUser.role === "admin") {
+                    window.location.href = "employee-dashboard/admin.html";
+                } else {
+                    window.location.href = "employee-dashboard/index.html";
+                }
+            }, 1000);
+        });
+    }
     const logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", function () {
             localStorage.removeItem("userRole");
             localStorage.removeItem("userEmail");
             localStorage.removeItem("userName");
+            localStorage.removeItem("isLoggedIn");
             window.location.href = "../signin.html";
         });
     }
@@ -63,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (dashUser) dashUser.textContent = storedName;
         if (headerUser) headerUser.textContent = storedName;
     } else if (storedEmail) {
-        const emailName = storedEmail.split('@')[0];
+        const emailName = storedEmail.split("@")[0];
         const dashUser = document.getElementById("dash-user-name");
         const headerUser = document.getElementById("header-user-name");
 
