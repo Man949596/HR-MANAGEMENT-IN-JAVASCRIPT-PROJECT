@@ -2747,6 +2747,18 @@ img {
     border-radius: 9999px;
 }
 
+.notification-count {
+    margin-left: auto;
+    min-width: 1.25rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 9999px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-align: center;
+}
+
 .dashboard-content {
     padding: 1.5rem;
 }

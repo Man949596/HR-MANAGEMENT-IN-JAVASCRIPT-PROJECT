@@ -48,6 +48,24 @@ document.addEventListener("DOMContentLoaded", function () {
             users.push(newUser);
             localStorage.setItem("registeredUsers", JSON.stringify(users));
 
+            const systemDb = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || {
+                users: [],
+                attendance: [],
+                leaves: [],
+                notifications: [],
+                auditLogs: [],
+            };
+            systemDb.users = Array.isArray(systemDb.users) ? systemDb.users : [];
+            systemDb.users.push({
+                id: `account-${Date.now()}`,
+                name,
+                role: role === "admin" ? "Admin" : "Employee",
+                dept: "General",
+                email,
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
+            });
+            localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(systemDb));
+
             localStorage.setItem(
                 "signupSuccess",
                 "Account created successfully! Please sign in with your credentials.",

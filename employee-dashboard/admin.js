@@ -73,9 +73,23 @@ const initialDB = {
         "System initialized successfully.",
         "Super Admin Sarah Jenkins logged into Control Panel.",
     ],
+    notifications: [
+        {
+            id: "welcome-notification",
+            title: "Welcome to EduHR",
+            message: "The employee portal is now connected to the HR control center.",
+            target: "all",
+            createdAt: new Date().toISOString(),
+            readBy: [],
+        },
+    ],
 };
 
 let DB = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || initialDB;
+DB.notifications = Array.isArray(DB.notifications) ? DB.notifications : [];
+DB.leaves = Array.isArray(DB.leaves) ? DB.leaves : [];
+DB.attendance = Array.isArray(DB.attendance) ? DB.attendance : [];
+DB.auditLogs = Array.isArray(DB.auditLogs) ? DB.auditLogs : [];
 
 function saveDB() {
     localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(DB));
@@ -330,6 +344,59 @@ function renderAuditLogs() {
     }
 }
 
+function renderAdminNotifications() {
+    const list = document.getElementById("adminNotificationList");
+    const count = document.getElementById("notifCount");
+    if (!list || !count) return;
+
+    const notifications = DB.notifications || [];
+    const unread = notifications.filter((item) => !Array.isArray(item.readBy) || !item.readBy.includes("admin"));
+    count.textContent = unread.length;
+    count.classList.toggle("hidden", unread.length === 0);
+    list.innerHTML = notifications.length
+        ? notifications.map((item) => `
+            <div class="p-3 border-b border-slate-100 dark:border-slate-700/50">
+                <div class="text-xs font-bold text-slate-800 dark:text-white">${item.title}</div>
+                <div class="text-[11px] text-slate-500 mt-1">${item.message}</div>
+                <div class="text-[10px] text-slate-400 mt-1">${new Date(item.createdAt).toLocaleString()}</div>
+            </div>`).join("")
+        : '<div class="p-4 text-xs text-slate-500">No notifications yet.</div>';
+}
+
+function publishNotice(e) {
+    e.preventDefault();
+    const title = document.getElementById("noticeTitle").value.trim();
+    const message = document.getElementById("noticeMessage").value.trim();
+    if (!title || !message) return;
+
+    DB.notifications.unshift({
+        id: Date.now().toString(),
+        title,
+        message,
+        target: "all",
+        createdAt: new Date().toISOString(),
+        readBy: [],
+    });
+    saveDB();
+    logAudit(`Published notice: ${title}`);
+    e.target.reset();
+    renderAdminNotifications();
+    renderNoticeBoard();
+}
+
+function renderNoticeBoard() {
+    const container = document.getElementById("noticeBoardContainer");
+    if (!container) return;
+    container.innerHTML = (DB.notifications || []).map((item) => `
+        <article class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+            <div class="flex items-start justify-between gap-3">
+                <div><h3 class="text-sm font-bold text-slate-800 dark:text-white">${item.title}</h3>
+                <p class="text-xs text-slate-500 mt-1">${item.message}</p></div>
+                <span class="text-[10px] text-slate-400 whitespace-nowrap">${new Date(item.createdAt).toLocaleDateString()}</span>
+            </div>
+        </article>`).join("");
+}
+
 function handleLogin(e) {
     e.preventDefault();
     const role = document.getElementById("loginRole").value;
@@ -413,6 +480,39 @@ window.onload = function () {
     renderLeaves();
     renderVisitorLogs();
     renderAuditLogs();
+    renderAdminNotifications();
+    renderNoticeBoard();
+
+    const noticeForm = document.getElementById("noticeForm");
+    if (noticeForm) noticeForm.addEventListener("submit", publishNotice);
+
+    const notifBtn = document.getElementById("notifBtn");
+    const notificationPanel = document.getElementById("adminNotifications");
+    if (notifBtn && notificationPanel) {
+        notifBtn.addEventListener("click", () => notificationPanel.classList.toggle("hidden"));
+    }
+    const markNotificationsRead = document.getElementById("markNotificationsRead");
+    if (markNotificationsRead) {
+        markNotificationsRead.addEventListener("click", () => {
+            DB.notifications.forEach((item) => {
+                item.readBy = Array.isArray(item.readBy) ? item.readBy : [];
+                if (!item.readBy.includes("admin")) item.readBy.push("admin");
+            });
+            saveDB();
+            renderAdminNotifications();
+        });
+    }
+
+    window.addEventListener("storage", (event) => {
+        if (event.key === "EDUHR_SYSTEM_DB") {
+            DB = JSON.parse(event.newValue) || initialDB;
+            DB.notifications = Array.isArray(DB.notifications) ? DB.notifications : [];
+            renderAdminNotifications();
+            renderNoticeBoard();
+            renderLeaves();
+            renderAttendance();
+        }
+    });
 
     switchView("v1");
 
