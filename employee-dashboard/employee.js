@@ -37,6 +37,7 @@ function matchesEmployee(record, employee) {
 function renderEmployeeDashboard() {
     const db = getEmployeeDB();
     const employee = getCurrentEmployee();
+    const isStudent = localStorage.getItem("userRole") === "student";
     const attendance = db.attendance.filter((record) => matchesEmployee(record, employee));
     const leaves = db.leaves.filter((record) => matchesEmployee(record, employee));
     const notifications = db.notifications.filter((item) => item.target === "all" || item.target === employee.email || item.target === employee.identity);
@@ -45,6 +46,9 @@ function renderEmployeeDashboard() {
     document.getElementById("dash-user-name").textContent = employee.name;
     document.getElementById("welcome-user-name").textContent = employee.name;
     document.getElementById("employee-account-email").textContent = employee.email || "Not available";
+    document.getElementById("portal-page-title").textContent = isStudent ? "Student Portal" : "Employee Portal";
+    document.getElementById("portal-role-badge").textContent = isStudent ? "Student" : "Employee";
+    document.getElementById("portal-brand").innerHTML = isStudent ? "Student<span class=\"text-gold\">Portal</span>" : "Employee<span class=\"text-gold\">Portal</span>";
     document.getElementById("employee-present-days").textContent = attendance.filter((item) => item.status === "Present").length;
     document.getElementById("employee-leave-count").textContent = leaves.length;
     document.getElementById("employee-unread-count").textContent = unread.length;
@@ -115,9 +119,30 @@ function submitEmployeeLeave(event) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    renderEmployeeDashboard()
+    const role = localStorage.getItem("userRole");
+    if (localStorage.getItem("isLoggedIn") !== "true" || !["employee", "student"].includes(role)) {
+        window.location.replace("../signin.html");
+        return;
+    }
+
+    const currentEmail = (localStorage.getItem("userEmail") || "").toLowerCase();
+    const hasActiveAccount = getEmployeeDB().users.some((user) => user.email?.toLowerCase() === currentEmail);
+    if (!hasActiveAccount) {
+        ["userRole", "userEmail", "userName", "isLoggedIn"].forEach((key) => localStorage.removeItem(key));
+        window.location.replace("../signin.html");
+        return;
+    }
+
+    renderEmployeeDashboard();
     const leaveForm = document.getElementById("employee-leave-form");
     if (leaveForm) leaveForm.addEventListener("submit", submitEmployeeLeave);
+    const notificationButton = document.querySelector(".dash-icon-btn");
+    if (notificationButton) {
+        notificationButton.addEventListener("click", () => {
+            showEmployeeSection("notifications");
+            markEmployeeNotificationsRead();
+        });
+    }
     document.querySelectorAll(".sidebar-link").forEach((link) => {
         link.addEventListener("click", (event) => {
             event.preventDefault();
@@ -127,6 +152,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
     window.addEventListener("storage", (event) => {
-        if (event.key === DB_KEY) renderEmployeeDashboard();
+        if (event.key === DB_KEY) {
+            const stillActive = getEmployeeDB().users.some((user) => user.email?.toLowerCase() === currentEmail);
+            if (!stillActive) {
+                ["userRole", "userEmail", "userName", "isLoggedIn"].forEach((key) => localStorage.removeItem(key));
+                window.location.replace("../signin.html");
+                return;
+            }
+            renderEmployeeDashboard();
+        }
     });
 });

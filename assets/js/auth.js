@@ -18,6 +18,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function addAuthNotification(systemDb, action, name, email, role) {
+        systemDb.notifications = Array.isArray(systemDb.notifications) ? systemDb.notifications : [];
+        systemDb.notifications.unshift({
+            id: `auth-${action}-${Date.now()}`,
+            title: action === "signup" ? "New account signup" : "Login activity",
+            message: `${name} (${email}) ${action === "signup" ? "signed up" : "logged in"} as ${role}.`,
+            target: "admin",
+            createdAt: new Date().toISOString(),
+            readBy: [],
+        });
+    }
+
     const signupForm = document.getElementById("signup-form");
     if (signupForm) {
         signupForm.addEventListener("submit", function (e) {
@@ -32,6 +44,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = document.getElementById("signup-password").value;
 
             let users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+            const systemDb = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || {
+                users: [],
+                attendance: [],
+                leaves: [],
+                notifications: [],
+                auditLogs: [],
+            };
+            if ((systemDb.deletedUserEmails || []).includes(email)) {
+                showAlert("This account was deleted by an administrator and cannot be registered again.", "error");
+                return;
+            }
 
             const userExists = users.some((user) => user.email === email);
             if (userExists) {
@@ -48,22 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
             users.push(newUser);
             localStorage.setItem("registeredUsers", JSON.stringify(users));
 
-            const systemDb = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || {
-                users: [],
-                attendance: [],
-                leaves: [],
-                notifications: [],
-                auditLogs: [],
-            };
             systemDb.users = Array.isArray(systemDb.users) ? systemDb.users : [];
             systemDb.users.push({
                 id: `account-${Date.now()}`,
                 name,
-                role: role === "admin" ? "Admin" : "Employee",
+                role: role === "admin" ? "Admin" : role === "student" ? "Student" : "Employee",
                 dept: "General",
                 email,
                 avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
             });
+            addAuthNotification(systemDb, "signup", name, email, role);
             localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(systemDb));
 
             localStorage.setItem(
@@ -119,11 +136,19 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("userName", foundUser.name);
             localStorage.setItem("isLoggedIn", "true");
 
+            const systemDb = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || {};
+            addAuthNotification(systemDb, "login", foundUser.name, foundUser.email, foundUser.role);
+            systemDb.auditLogs = Array.isArray(systemDb.auditLogs) ? systemDb.auditLogs : [];
+            systemDb.auditLogs.unshift(`[${new Date().toLocaleTimeString()}] ${foundUser.role} ${foundUser.name} logged into portal.`);
+            localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(systemDb));
+
             showAlert("Login successful! Redirecting...", "success");
 
             setTimeout(() => {
                 if (foundUser.role === "admin") {
                     window.location.href = "employee-dashboard/admin.html";
+                } else if (foundUser.role === "student") {
+                    window.location.href = "employee-dashboard/student.html";
                 } else {
                     window.location.href = "employee-dashboard/index.html";
                 }

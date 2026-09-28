@@ -18,15 +18,6 @@ const initialDB = {
             avatar:
                 "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
         },
-        {
-            id: "3",
-            name: "Emma Watson",
-            role: "Student",
-            dept: "Software Engineering",
-            email: "emma.w@eduhr.com",
-            avatar:
-                "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80",
-        },
     ],
     attendance: [
         {
@@ -41,13 +32,6 @@ const initialDB = {
             date: "2026-09-23",
             in: "08:45 AM",
             out: "05:15 PM",
-            status: "Present",
-        },
-        {
-            name: "Emma Watson",
-            date: "2026-09-23",
-            in: "09:00 AM",
-            out: "--",
             status: "Present",
         },
     ],
@@ -83,13 +67,71 @@ const initialDB = {
             readBy: [],
         },
     ],
+    jobs: [
+        { id: "job-1", title: "Senior Faculty - Computer Science", department: "Computer Science", applicants: 12, status: "Open" },
+        { id: "job-2", title: "HR Operations Coordinator", department: "Human Resources", applicants: 7, status: "Open" },
+    ],
+    performance: [
+        { userId: "1", score: 4.8, goal: "Leadership and strategic planning" },
+        { userId: "2", score: 4.4, goal: "Teaching quality and research" },
+    ],
+    courses: [
+        { id: "course-1", title: "Workplace Safety & Compliance", instructor: "HR Learning Team", enrolled: 34 },
+        { id: "course-2", title: "Modern Teaching Tools", instructor: "Academic Excellence", enrolled: 21 },
+    ],
+    assets: [
+        { tag: "AST-1001", name: "MacBook Pro 14", assigned: "Prof. Alan Turing", status: "Assigned" },
+        { tag: "AST-1002", name: "Biometric Scanner", assigned: "HR Office", status: "Available" },
+    ],
+    tickets: [
+        { id: "TCK-101", subject: "Unable to access payroll slip", requester: "Prof. Alan Turing", priority: "High", status: "Open" },
+    ],
+    expenses: [
+        { id: "EXP-101", claimant: "Prof. Alan Turing", category: "Conference Travel", amount: 380, status: "Pending" },
+        { id: "EXP-102", claimant: "Dr. Sarah Jenkins", category: "Office Supplies", amount: 125, status: "Approved" },
+    ],
+    tasks: [
+        { id: "TASK-1", title: "Prepare Term Mid-Exams", status: "To Do" },
+        { id: "TASK-2", title: "Audit Faculty Attendance", status: "To Do" },
+        { id: "TASK-3", title: "Disburse September Payroll", status: "In Progress" },
+        { id: "TASK-4", title: "Campus Wi-Fi Upgrade", status: "Completed" },
+    ],
+    documents: [
+        { id: "DOC-1", name: "Institute HR Policy 2026.pdf", updated: "12 days ago" },
+        { id: "DOC-2", name: "Academic Accreditation Certificate.pdf", updated: "1 month ago" },
+    ],
+    timetable: [
+        { time: "09:00 - 10:30", Monday: "CS101 - Lecture", Tuesday: "Staff Shift A", Wednesday: "CS101 - Lecture", Thursday: "Faculty Seminar", Friday: "Lab Session" },
+        { time: "11:00 - 12:30", Monday: "HR Workshop", Tuesday: "CS101 - Lab", Wednesday: "Staff Shift A", Thursday: "CS101 - Lab", Friday: "Guest Lecture" },
+    ],
+    onboarding: { identity: true, education: true, background: false, bank: false },
+    settings: { darkMode: false },
 };
 
 let DB = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || initialDB;
+DB.deletedUserEmails = Array.isArray(DB.deletedUserEmails) ? DB.deletedUserEmails : [];
 DB.notifications = Array.isArray(DB.notifications) ? DB.notifications : [];
 DB.leaves = Array.isArray(DB.leaves) ? DB.leaves : [];
 DB.attendance = Array.isArray(DB.attendance) ? DB.attendance : [];
 DB.auditLogs = Array.isArray(DB.auditLogs) ? DB.auditLogs : [];
+DB.jobs = Array.isArray(DB.jobs) ? DB.jobs : initialDB.jobs;
+DB.performance = Array.isArray(DB.performance) ? DB.performance : initialDB.performance;
+DB.courses = Array.isArray(DB.courses) ? DB.courses : initialDB.courses;
+DB.assets = Array.isArray(DB.assets) ? DB.assets : initialDB.assets;
+DB.tickets = Array.isArray(DB.tickets) ? DB.tickets : initialDB.tickets;
+DB.expenses = Array.isArray(DB.expenses) ? DB.expenses : initialDB.expenses;
+DB.tasks = Array.isArray(DB.tasks) ? DB.tasks : initialDB.tasks;
+DB.documents = Array.isArray(DB.documents) ? DB.documents : initialDB.documents;
+DB.timetable = Array.isArray(DB.timetable) ? DB.timetable : initialDB.timetable;
+DB.onboarding = { ...initialDB.onboarding, ...(DB.onboarding || {}) };
+DB.settings = { ...initialDB.settings, ...(DB.settings || {}) };
+
+const legacyStudentEmail = "emma.w@eduhr.com";
+DB.users = DB.users.filter((user) => user.email?.toLowerCase() !== legacyStudentEmail);
+DB.attendance = DB.attendance.filter((record) => record.name !== "Emma Watson" && record.email?.toLowerCase() !== legacyStudentEmail);
+DB.leaves = DB.leaves.filter((record) => record.name !== "Emma Watson" && record.email?.toLowerCase() !== legacyStudentEmail);
+DB.tickets = DB.tickets.filter((ticket) => ticket.requester !== "Emma Watson");
+localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(DB));
 
 function saveDB() {
     localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(DB));
@@ -100,6 +142,19 @@ function logAudit(action) {
     DB.auditLogs.unshift(`[${time}] ${action}`);
     saveDB();
     renderAuditLogs();
+}
+
+function notifyEmployee(title, message, target = "all") {
+    DB.notifications = Array.isArray(DB.notifications) ? DB.notifications : [];
+    DB.notifications.unshift({
+        id: `admin-update-${Date.now()}`,
+        title,
+        message,
+        target,
+        createdAt: new Date().toISOString(),
+        readBy: [],
+    });
+    saveDB();
 }
 
 function switchView(viewId) {
@@ -166,6 +221,66 @@ function renderDirectory() {
             .join("");
 }
 
+function renderAdminDataViews() {
+    const findUser = (name) => DB.users.find((user) => user.name === name);
+    const jobs = document.getElementById("atsJobList");
+    if (jobs) jobs.innerHTML = DB.jobs.map((job) => `<article class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700"><div class="flex justify-between gap-2"><h3 class="font-bold text-sm">${job.title}</h3><span class="text-[10px] px-2 py-1 rounded bg-emerald-100 text-emerald-700">${job.status}</span></div><p class="text-xs text-slate-500 mt-2">${job.department}</p><p class="text-xs mt-3"><strong>${job.applicants}</strong> applicants</p><button onclick="updateJobStatus('${job.id}')" class="mt-3 text-xs text-primary-600 hover:underline">Change status</button></article>`).join("");
+
+    const performance = document.getElementById("kpiPerformanceContainer");
+    if (performance) performance.innerHTML = DB.performance.map((item) => { const user = DB.users.find((candidate) => candidate.id === item.userId); return `<article class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700"><div class="flex justify-between"><strong class="text-sm">${user?.name || "Unknown user"}</strong><span class="text-amber-600 font-bold">${item.score}/5</span></div><p class="text-xs text-slate-500 mt-2">${item.goal}</p><button onclick="editPerformance('${item.userId}')" class="text-xs text-primary-600 hover:underline mt-3">Update score</button></article>`; }).join("");
+
+    const courses = document.getElementById("trainingCoursesContainer");
+    if (courses) courses.innerHTML = DB.courses.map((course) => `<article class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700"><h3 class="font-bold text-sm">${course.title}</h3><p class="text-xs text-slate-500 mt-2">${course.instructor}</p><p class="text-xs mt-3">${course.enrolled} enrolled</p><button onclick="enrollCourse('${course.id}')" class="mt-3 text-xs text-primary-600 hover:underline">Add enrolment</button></article>`).join("");
+
+    const assets = document.getElementById("assetsTable");
+    if (assets) assets.innerHTML = DB.assets.map((asset) => `<tr class="border-b dark:border-slate-700"><td class="p-3 font-mono">${asset.tag}</td><td class="p-3">${asset.name}</td><td class="p-3">${asset.assigned}</td><td class="p-3"><button onclick="toggleAssetStatus('${asset.tag}')" class="text-xs font-bold ${asset.status === "Available" ? "text-emerald-600" : "text-amber-600"}">${asset.status}</button></td></tr>`).join("");
+
+    const tickets = document.getElementById("helpdeskList");
+    if (tickets) tickets.innerHTML = DB.tickets.map((ticket) => `<article class="p-3 border rounded-lg dark:border-slate-700"><div class="flex justify-between gap-2"><strong class="text-xs">${ticket.subject}</strong><span class="text-[10px] font-bold">${ticket.priority}</span></div><p class="text-[11px] text-slate-500 mt-1">${ticket.requester} · ${ticket.id}</p><button onclick="closeTicket('${ticket.id}')" class="text-xs text-primary-600 hover:underline mt-2">${ticket.status === "Closed" ? "Reopen" : "Resolve ticket"}</button></article>`).join("");
+
+    const expenses = document.getElementById("expenseTable");
+    if (expenses) expenses.innerHTML = DB.expenses.map((expense) => `<tr class="border-b dark:border-slate-700"><td class="p-3">${expense.claimant}</td><td class="p-3">${expense.category}</td><td class="p-3">$${Number(expense.amount).toFixed(2)}</td><td class="p-3"><button onclick="toggleExpense('${expense.id}')" class="text-xs font-bold ${expense.status === "Approved" ? "text-emerald-600" : "text-amber-600"}">${expense.status}</button></td></tr>`).join("");
+
+    const tasks = document.getElementById("kanbanBoard");
+    if (tasks) tasks.innerHTML = ["To Do", "In Progress", "Completed"].map((status) => `<div class="bg-slate-100 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700"><h3 class="font-bold text-xs uppercase text-slate-500 mb-3">${status}</h3><div class="space-y-2">${DB.tasks.filter((task) => task.status === status).map((task) => `<button onclick="advanceTask('${task.id}')" class="block w-full text-left bg-white dark:bg-slate-800 p-3 rounded-lg border shadow-sm text-xs font-medium">${task.title}</button>`).join("") || '<p class="text-xs text-slate-400">No tasks</p>'}</div></div>`).join("");
+
+    const documents = document.getElementById("documentVault");
+    if (documents) documents.innerHTML = DB.documents.map((doc) => `<article class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center space-x-3"><i class="fa-solid fa-file-pdf text-red-500 text-2xl"></i><div><div class="font-bold text-xs">${doc.name}</div><div class="text-[10px] text-slate-500">Updated ${doc.updated}</div></div><button onclick="removeDocument('${doc.id}')" class="ml-auto text-red-500"><i class="fa-solid fa-trash"></i></button></article>`).join("");
+    renderOnboarding();
+    renderTimetable();
+    updateDashboardKPIs();
+}
+
+function updateDashboardKPIs() {
+    const total = document.getElementById("kpiTotalUsers");
+    const present = document.getElementById("kpiPresent");
+    const tickets = document.getElementById("kpiTickets");
+    if (total) total.textContent = DB.users.length.toLocaleString();
+    if (present) present.textContent = DB.attendance.filter((item) => item.status === "Present").length.toLocaleString();
+    if (tickets) tickets.textContent = DB.tickets.filter((item) => item.status !== "Closed").length;
+}
+
+function renderOnboarding() {
+    document.querySelectorAll("#onboardingChecklist input[data-check]").forEach((input) => { input.checked = Boolean(DB.onboarding[input.dataset.check]); });
+}
+
+function renderTimetable() {
+    const body = document.getElementById("timetableBody");
+    if (!body) return;
+    body.innerHTML = DB.timetable.map((row) => `<tr><td class="p-2 border font-bold bg-slate-50 dark:bg-slate-800">${row.time}</td>${["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day) => `<td class="p-2 border"><button onclick="editTimetable('${row.time}', '${day}')" class="text-xs hover:text-primary-600">${row[day]}</button></td>`).join("")}</tr>`).join("");
+}
+
+function updateJobStatus(id) { const job = DB.jobs.find((item) => item.id === id); if (job) { job.status = job.status === "Open" ? "Closed" : "Open"; saveDB(); logAudit(`Updated recruitment status: ${job.title}`); renderAdminDataViews(); } }
+function editPerformance(userId) { const item = DB.performance.find((entry) => entry.userId === userId); if (item) { const score = Number(prompt("Enter performance score from 0 to 5:", item.score)); if (score >= 0 && score <= 5) { item.score = score; saveDB(); logAudit(`Updated performance score for ${userId}`); renderAdminDataViews(); } } }
+function enrollCourse(id) { const course = DB.courses.find((item) => item.id === id); if (course) { course.enrolled += 1; saveDB(); renderAdminDataViews(); } }
+function toggleAssetStatus(tag) { const asset = DB.assets.find((item) => item.tag === tag); if (asset) { asset.status = asset.status === "Available" ? "Assigned" : "Available"; saveDB(); logAudit(`Changed asset status: ${tag}`); renderAdminDataViews(); } }
+function closeTicket(id) { const ticket = DB.tickets.find((item) => item.id === id); if (ticket) { ticket.status = ticket.status === "Closed" ? "Open" : "Closed"; saveDB(); logAudit(`Updated ticket ${id}`); renderAdminDataViews(); } }
+function toggleExpense(id) { const expense = DB.expenses.find((item) => item.id === id); if (expense) { expense.status = expense.status === "Approved" ? "Pending" : "Approved"; saveDB(); logAudit(`Updated expense ${id}`); renderAdminDataViews(); } }
+function advanceTask(id) { const task = DB.tasks.find((item) => item.id === id); if (task) { const statuses = ["To Do", "In Progress", "Completed"]; task.status = statuses[(statuses.indexOf(task.status) + 1) % statuses.length]; saveDB(); logAudit(`Moved task: ${task.title}`); renderAdminDataViews(); } }
+function removeDocument(id) { DB.documents = DB.documents.filter((item) => item.id !== id); saveDB(); logAudit(`Removed document ${id}`); renderAdminDataViews(); }
+function editTimetable(time, day) { const row = DB.timetable.find((item) => item.time === time); if (row) { const value = prompt(`Enter schedule for ${day}:`, row[day]); if (value?.trim()) { row[day] = value.trim(); saveDB(); logAudit(`Updated timetable: ${day} ${time}`); renderTimetable(); } } }
+function toggleOnboarding(key) { DB.onboarding[key] = !DB.onboarding[key]; saveDB(); logAudit(`Updated onboarding checklist: ${key}`); }
+
 function filterDirectory() {
     const query = document.getElementById("directorySearch").value.toLowerCase();
     const rows = document.querySelectorAll("#directoryTableBody tr");
@@ -175,10 +290,25 @@ function filterDirectory() {
 }
 
 function deleteUser(id) {
+    const deletedUser = DB.users.find((user) => user.id === id);
+    if (!deletedUser) return;
+
+    const deletedEmail = deletedUser.email?.toLowerCase();
     DB.users = DB.users.filter((u) => u.id !== id);
+    if (deletedEmail) {
+        if (!DB.deletedUserEmails.includes(deletedEmail)) DB.deletedUserEmails.push(deletedEmail);
+        const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+        localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers.filter((user) => user.email?.toLowerCase() !== deletedEmail)));
+        DB.attendance = DB.attendance.filter((record) => record.email ? record.email.toLowerCase() !== deletedEmail : record.name !== deletedUser.name);
+        DB.leaves = DB.leaves.filter((record) => record.email ? record.email.toLowerCase() !== deletedEmail : record.name !== deletedUser.name);
+    }
+    DB.performance = DB.performance.filter((item) => item.userId !== id);
     saveDB();
     logAudit(`Deleted user ID: ${id}`);
     renderDirectory();
+    renderAttendance();
+    renderLeaves();
+    renderAdminDataViews();
 }
 
 function openAddUserModal() {
@@ -242,9 +372,15 @@ function renderLeaves() {
 }
 
 function approveLeave(idx) {
-    DB.leaves[idx].status = "Approved";
-    saveDB();
-    logAudit(`Approved leave for ${DB.leaves[idx].name}`);
+    const leave = DB.leaves[idx];
+    if (!leave || leave.status === "Approved") return;
+    leave.status = "Approved";
+    notifyEmployee(
+        "Leave request approved",
+        `Your ${leave.type} request for ${leave.dates} was approved by HR.`,
+        leave.email || "all",
+    );
+    logAudit(`Approved leave for ${leave.name}`);
     renderLeaves();
 }
 
@@ -312,10 +448,12 @@ function submitVisitorGatePass(e) {
 
 function renderPayslipPreview() {
     const name = document.getElementById("payrollUserSelect").value;
+    const user = DB.users.find((item) => item.name === name);
     const amount =
         parseFloat(document.getElementById("payrollAmount").value) || 4500;
 
     document.getElementById("psName").innerText = name;
+    document.getElementById("psRole").innerText = user?.role || "Employee";
     document.getElementById("psBase").innerText = `$${amount.toFixed(2)}`;
     document.getElementById("psTotal").innerText =
         `$${(amount + 150).toFixed(2)}`;
@@ -350,7 +488,7 @@ function renderAdminNotifications() {
     if (!list || !count) return;
 
     const notifications = DB.notifications || [];
-    const unread = notifications.filter((item) => !Array.isArray(item.readBy) || !item.readBy.includes("admin"));
+    const unread = notifications.filter((item) => (item.target === "admin" || item.target === "all") && (!Array.isArray(item.readBy) || !item.readBy.includes("admin")));
     count.textContent = unread.length;
     count.classList.toggle("hidden", unread.length === 0);
     list.innerHTML = notifications.length
@@ -472,9 +610,12 @@ function resetSystemData() {
 
 function toggleDarkMode() {
     document.documentElement.classList.toggle("dark");
+    DB.settings.darkMode = document.documentElement.classList.contains("dark");
+    saveDB();
 }
 
 window.onload = function () {
+    if (DB.settings.darkMode) document.documentElement.classList.add("dark");
     renderDirectory();
     renderAttendance();
     renderLeaves();
@@ -482,6 +623,7 @@ window.onload = function () {
     renderAuditLogs();
     renderAdminNotifications();
     renderNoticeBoard();
+    renderAdminDataViews();
 
     const noticeForm = document.getElementById("noticeForm");
     if (noticeForm) noticeForm.addEventListener("submit", publishNotice);
@@ -507,6 +649,7 @@ window.onload = function () {
         if (event.key === "EDUHR_SYSTEM_DB") {
             DB = JSON.parse(event.newValue) || initialDB;
             DB.notifications = Array.isArray(DB.notifications) ? DB.notifications : [];
+            renderDirectory();
             renderAdminNotifications();
             renderNoticeBoard();
             renderLeaves();
