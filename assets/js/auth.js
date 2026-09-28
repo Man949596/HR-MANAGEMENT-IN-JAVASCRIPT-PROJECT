@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         systemDb.notifications = Array.isArray(systemDb.notifications) ? systemDb.notifications : [];
         systemDb.notifications.unshift({
             id: `auth-${action}-${Date.now()}`,
-            title: action === "signup" ? "New account signup" : "Login activity",
+            title: action === "signup" ? "New account signup" : role === "employee" ? "Employee login" : "Login activity",
             message: `${name} (${email}) ${action === "signup" ? "signed up" : "logged in"} as ${role}.`,
             target: "admin",
             createdAt: new Date().toISOString(),

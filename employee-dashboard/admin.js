@@ -647,10 +647,17 @@ window.onload = function () {
 
     window.addEventListener("storage", (event) => {
         if (event.key === "EDUHR_SYSTEM_DB") {
+            const previousNotificationIds = new Set(DB.notifications.map((item) => item.id));
             DB = JSON.parse(event.newValue) || initialDB;
             DB.notifications = Array.isArray(DB.notifications) ? DB.notifications : [];
+            const newEmployeeLogin = DB.notifications.some((item) =>
+                item.title === "Employee login" && !previousNotificationIds.has(item.id)
+            );
             renderDirectory();
             renderAdminNotifications();
+            if (newEmployeeLogin) {
+                document.getElementById("adminNotifications")?.classList.remove("hidden");
+            }
             renderNoticeBoard();
             renderLeaves();
             renderAttendance();
