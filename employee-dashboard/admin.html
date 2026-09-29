@@ -35,7 +35,6 @@
             }
         }
     </script>
-    <!-- FontAwesome & Chart.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -101,74 +100,73 @@
         </header>
 
         <div class="flex-1 flex overflow-hidden">
-            <!-- Sidebar (15 Main Features) -->
             <aside id="sidebar" class="no-print w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col justify-between transition-all duration-300 z-20 absolute lg:relative h-[calc(100vh-57px)] -translate-x-full lg:translate-x-0">
                 <div class="p-3 overflow-y-auto custom-scrollbar flex-1 space-y-2">
                     <div class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Navigation (16 Features)</div>
                     <nav class="space-y-0.5">
                         <button onclick="switchView('v1')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v1">
                             <i class="fa-solid fa-chart-line w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">1. Admin Dashboard</span>
+                            <span class="truncate"> Admin Dashboard</span>
                         </button>
                         <button onclick="switchView('v2')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v2">
                             <i class="fa-solid fa-address-book w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">2. Employee Directory</span>
+                            <span class="truncate"> Employee Directory</span>
                         </button>
                         <button onclick="switchView('v3')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v3">
                             <i class="fa-solid fa-clock w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">3. Attendance Tracker</span>
+                            <span class="truncate"> Attendance Tracker</span>
                         </button>
                         <button onclick="switchView('v4')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v4">
                             <i class="fa-solid fa-file-invoice-dollar w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">4. Payroll & Invoices</span>
+                            <span class="truncate"> Payroll & Invoices</span>
                         </button>
                         <button onclick="switchView('v5')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v5">
                             <i class="fa-solid fa-plane-departure w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">5. Leave Requests</span>
+                            <span class="truncate"> Leave Requests</span>
                         </button>
                         <button onclick="switchView('v6')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v6">
                             <i class="fa-solid fa-briefcase w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">6. Recruitment ATS</span>
+                            <span class="truncate"> Recruitment ATS</span>
                         </button>
                         <button onclick="switchView('v7')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v7">
                             <i class="fa-solid fa-star w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">7. KPI Performance</span>
+                            <span class="truncate"> KPI Performance</span>
                         </button>
                         <button onclick="switchView('v8')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v8">
                             <i class="fa-solid fa-graduation-cap w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">8. Training Hub</span>
+                            <span class="truncate"> Training Hub</span>
                         </button>
                         <button onclick="switchView('v9')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v9">
                             <i class="fa-solid fa-laptop w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">9. Asset Inventory</span>
+                            <span class="truncate"> Asset Inventory</span>
                         </button>
                         <button onclick="switchView('v10')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v10">
                             <i class="fa-solid fa-headset w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">10. Helpdesk Tickets</span>
+                            <span class="truncate"> Helpdesk Tickets</span>
                         </button>
                         <button onclick="switchView('v11')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v11">
                             <i class="fa-solid fa-bullhorn w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">11. Notice Board</span>
+                            <span class="truncate"> Notice Board</span>
                         </button>
                         <button onclick="switchView('v12')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v12">
                             <i class="fa-solid fa-receipt w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">12. Expense Tracker</span>
+                            <span class="truncate"> Expense Tracker</span>
                         </button>
                         <button onclick="switchView('v13')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v13">
                             <i class="fa-solid fa-list-check w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">13. Kanban Tasks</span>
+                            <span class="truncate"> Kanban Tasks</span>
                         </button>
                         <button onclick="switchView('v14')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v14">
                             <i class="fa-solid fa-id-card-clip w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">14. ID Card Studio</span>
+                            <span class="truncate"> ID Card Studio</span>
                         </button>
                         <button onclick="switchView('v15')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v15">
                             <i class="fa-solid fa-database w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">15. Data Backup/Import</span>
+                            <span class="truncate"> Data Backup/Import</span>
                         </button>
                         <button onclick="switchView('v16')" class="nav-btn group flex items-center w-full px-3 py-2 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary-50 dark:hover:bg-slate-700" data-view="v16">
                             <i class="fa-solid fa-folder-open w-5 text-slate-400 group-hover:text-primary-600"></i>
-                            <span class="truncate">16. Employee Documents</span>
+                            <span class="truncate"> Employee Documents</span>
                         </button>
                     </nav>
                 </div>
@@ -178,10 +176,8 @@
                 </div>
             </aside>
 
-            <!-- Main Content Panels -->
             <main class="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar bg-slate-50 dark:bg-slate-900 transition-colors duration-200" id="mainContent">
 
-                <!-- 1. Admin Dashboard View -->
                 <section id="v1" class="view-panel hidden space-y-6">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
@@ -231,7 +227,6 @@
                     </div>
                 </section>
 
-                <!-- 2. Employee Directory View -->
                 <section id="v2" class="view-panel hidden space-y-4">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-bold text-slate-800 dark:text-white">Employee Directory</h2>
@@ -258,7 +253,6 @@
                     </div>
                 </section>
 
-                <!-- 3. Attendance Tracker View -->
                 <section id="v3" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Biometric Attendance Tracker</h2>
                     <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -279,7 +273,6 @@
                     </div>
                 </section>
 
-                <!-- 4. Payroll & Invoices View -->
                 <section id="v4" class="view-panel hidden space-y-6">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Payroll & Fee Slip Generator</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -317,7 +310,6 @@
                     </div>
                 </section>
 
-                <!-- 5. Leave Requests View -->
                 <section id="v5" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Leave Requests & Approvals</h2>
                     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
@@ -337,25 +329,21 @@
                     </div>
                 </section>
 
-                <!-- 6. Recruitment ATS View -->
                 <section id="v6" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Recruitment Applicant Tracking</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="atsJobList"></div>
                 </section>
 
-                <!-- 7. KPI Performance View -->
                 <section id="v7" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">KPI Performance Appraisals</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="kpiPerformanceContainer"></div>
                 </section>
 
-                <!-- 8. Training Hub View -->
                 <section id="v8" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Training & Skills Hub</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="trainingCoursesContainer"></div>
                 </section>
 
-                <!-- 9. Asset Inventory View -->
                 <section id="v9" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Asset & Equipment Inventory</h2>
                     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -373,13 +361,11 @@
                     </div>
                 </section>
 
-                <!-- 10. Helpdesk Tickets View -->
                 <section id="v10" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Helpdesk & Support Tickets</h2>
                     <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3" id="helpdeskList"></div>
                 </section>
 
-                <!-- 11. Notice Board View -->
                 <section id="v11" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">HR Notice Board</h2>
                     <form id="noticeForm" class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 grid gap-3 md:grid-cols-[1fr_2fr_auto]">
@@ -390,7 +376,6 @@
                     <div class="space-y-3" id="noticeBoardContainer"></div>
                 </section>
 
-                <!-- 12. Expense Tracker View -->
                 <section id="v12" class="view-panel hidden space-y-4">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Expense Tracker</h2>
                     <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -408,7 +393,6 @@
                     </div>
                 </section>
 
-                <!-- 13. Kanban Tasks View -->
                 <section id="v13" class="view-panel hidden space-y-4">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <h2 class="text-xl font-bold text-slate-800 dark:text-white">Kanban Task Board</h2>
@@ -417,7 +401,6 @@
                     <div id="kanbanBoard" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
                 </section>
 
-                <!-- 14. ID Card Studio View -->
                 <section id="v14" class="view-panel hidden space-y-6">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Automated ID Card Studio</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -446,7 +429,6 @@
                     </div>
                 </section>
 
-                <!-- 15. Data Backup/Import View -->
                 <section id="v15" class="view-panel hidden space-y-4 max-w-xl">
                     <h2 class="text-xl font-bold text-slate-800 dark:text-white">Database JSON Backup & Import</h2>
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
@@ -476,7 +458,6 @@
         </div>
     </div>
 
-    <!-- External Logic File -->
     <script src="admin.js"></script>
 </body>
 

@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const databaseKey = "EDUHR_SYSTEM_DB_V2";
     const defaultAccounts = [
-        { name: "HR Administrator", email: "admin@eduhr.com", role: "admin", password: "Admin123!" },
-        { name: "Alan Turing", email: "alan.t@eduhr.com", role: "employee", password: "Employee123!" },
+        { name: "HR Administrator", email: "admin9495@gmail.com", role: "admin", password: "Admin9495!" },
+        { name: "Alan Turing", email: "employee9495@gmail.com", role: "employee", password: "Employee9495!" },
     ];
 
     function readArray(key) {
