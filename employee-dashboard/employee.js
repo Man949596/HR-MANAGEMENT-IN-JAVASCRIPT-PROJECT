@@ -350,8 +350,16 @@ function switchSection(section) {
 	document.querySelectorAll(".sidebar-link").forEach((link) => link.classList.toggle("active", link.dataset.section === section));
 	document.getElementById("portal-page-title").textContent = document.querySelector(`.sidebar-link[data-section="${section}"] span`)?.textContent || "Employee Portal";
 	history.replaceState(null, "", `#${section}`);
-	document.getElementById("dashboard-sidebar").classList.remove("open");
-	document.getElementById("sidebar-overlay").classList.add("hidden");
+	setSidebarOpen(false);
+}
+
+function setSidebarOpen(isOpen) {
+	const sidebar = document.getElementById("dashboard-sidebar");
+	const overlay = document.getElementById("sidebar-overlay");
+	if (!sidebar || !overlay) return;
+	sidebar.classList.toggle("open", isOpen);
+	overlay.classList.toggle("hidden", !isOpen);
+	document.body.classList.toggle("sidebar-open", isOpen);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -359,6 +367,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		event.preventDefault();
 		switchSection(link.dataset.section);
 	}));
+	document.getElementById("mobile-sidebar-toggle").addEventListener("click", () => setSidebarOpen(true));
+	document.getElementById("close-sidebar-btn").addEventListener("click", () => setSidebarOpen(false));
+	document.getElementById("sidebar-overlay").addEventListener("click", () => setSidebarOpen(false));
 	document.getElementById("employee-check-in").addEventListener("click", checkIn);
 	document.getElementById("employee-check-out").addEventListener("click", checkOut);
 	document.getElementById("employee-attendance-filter").addEventListener("change", () => renderAttendance());
