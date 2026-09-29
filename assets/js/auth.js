@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (accountRole === "admin") {
                     window.location.href = "employee-dashboard/admin.html";
                 } else {
-                    window.location.href = "employee-dashboard/index.html";
+                    window.location.href = "employee-dashboard/employee.html";
                 }
             }, 1000);
         });
