@@ -356,10 +356,16 @@ function switchSection(section) {
 function setSidebarOpen(isOpen) {
 	const sidebar = document.getElementById("dashboard-sidebar");
 	const overlay = document.getElementById("sidebar-overlay");
+	const toggle = document.getElementById("mobile-sidebar-toggle");
 	if (!sidebar || !overlay) return;
 	sidebar.classList.toggle("open", isOpen);
 	overlay.classList.toggle("hidden", !isOpen);
 	document.body.classList.toggle("sidebar-open", isOpen);
+	toggle?.setAttribute("aria-expanded", String(isOpen));
+	toggle?.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+	const icon = toggle?.querySelector("i");
+	icon?.classList.toggle("fa-bars", !isOpen);
+	icon?.classList.toggle("fa-xmark", isOpen);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -367,7 +373,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		event.preventDefault();
 		switchSection(link.dataset.section);
 	}));
-	document.getElementById("mobile-sidebar-toggle").addEventListener("click", () => setSidebarOpen(true));
+	document.getElementById("mobile-sidebar-toggle").addEventListener("click", () => {
+		const isOpen = document.getElementById("dashboard-sidebar").classList.contains("open");
+		setSidebarOpen(!isOpen);
+	});
 	document.getElementById("close-sidebar-btn").addEventListener("click", () => setSidebarOpen(false));
 	document.getElementById("sidebar-overlay").addEventListener("click", () => setSidebarOpen(false));
 	document.getElementById("employee-check-in").addEventListener("click", checkIn);
