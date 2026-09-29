@@ -173,9 +173,20 @@ function renderAttendance() {
             <td class="p-3">${escapeHTML(a.date)}</td>
             <td class="p-3 text-emerald-600 font-mono">${escapeHTML(a.in)}</td>
             <td class="p-3 text-amber-600 font-mono">${escapeHTML(a.out)}</td>
-            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-bold">${escapeHTML(a.status)}</span></td>
+            <td class="p-3 font-mono">${escapeHTML(getAttendanceDuration(a))}</td>
+            <td class="p-3"><span class="${a.status === "Late" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"} text-[10px] px-2 py-0.5 rounded font-bold">${escapeHTML(a.status)}</span></td>
         </tr>
     `).join("");
+}
+
+function getAttendanceDuration(record) {
+    if (record.hours && record.out) return `${Number(record.hours).toFixed(2)} hours`;
+    if (!record.checkInAt) return record.hours ? `${Number(record.hours).toFixed(2)} hours` : "-";
+    const startedAt = new Date(record.checkInAt);
+    if (Number.isNaN(startedAt.getTime())) return "-";
+    const endedAt = record.checkOutAt ? new Date(record.checkOutAt) : new Date();
+    const minutes = Math.max(0, Math.floor((endedAt - startedAt) / 60000));
+    return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 }
 
 function renderLeaves() {
@@ -187,9 +198,10 @@ function renderLeaves() {
             <td class="p-3">${escapeHTML(l.type)}</td>
             <td class="p-3 font-mono">${escapeHTML(l.dates || `${l.startDate || ""} - ${l.endDate || ""}`)}</td>
             <td class="p-3">${escapeHTML(l.reason)}</td>
-            <td class="p-3"><span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded font-bold">${l.status}</span></td>
+            <td class="p-3"><span class="${l.status === "Approved" ? "bg-emerald-100 text-emerald-800" : l.status === "Rejected" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"} text-[10px] px-2 py-0.5 rounded font-bold">${escapeHTML(l.status)}</span></td>
             <td class="p-3 text-right">
-                ${l.status === "Pending" ? `<button onclick="updateLeaveStatus(${index}, 'Approved')" class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px]">Approve</button> <button onclick="updateLeaveStatus(${index}, 'Rejected')" class="bg-red-600 text-white px-2 py-1 rounded text-[10px]">Reject</button>` : ""}
+                <button onclick="editLeaveRequest('${escapeHTML(l.id || index)}')" class="bg-slate-200 text-slate-700 px-2 py-1 rounded text-[10px]">Edit</button>
+                ${l.status === "Pending" ? ` <button onclick="updateLeaveStatus(${index}, 'Approved')" class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px]">Approve</button> <button onclick="updateLeaveStatus(${index}, 'Rejected')" class="bg-red-600 text-white px-2 py-1 rounded text-[10px]">Reject</button>` : ""}
             </td>
         </tr>
     `).join("");
@@ -207,6 +219,36 @@ function updateLeaveStatus(idx, status) {
             readBy: [],
         });
         saveDB();
+        renderLeaves();
+        renderAdminNotifications();
+    }
+}
+
+function editLeaveRequest(id) {
+    const leave = DB.leaves.find((item, index) => String(item.id || index) === id);
+    if (!leave) return;
+    const type = prompt("Leave type:", leave.type || "Casual Leave");
+    if (type === null || !type.trim()) return;
+    const startDate = prompt("Start date (YYYY-MM-DD):", leave.startDate || "");
+    if (startDate === null) return;
+    const endDate = prompt("End date (YYYY-MM-DD):", leave.endDate || "");
+    if (endDate === null) return;
+    const reason = prompt("Reason:", leave.reason || "");
+    if (reason === null || !reason.trim()) return;
+    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(startDate) || !/^\\d{4}-\\d{2}-\\d{2}$/.test(endDate) || endDate < startDate) {
+        alert("Enter valid dates with the end date on or after the start date.");
+        return;
+    }
+    Object.assign(leave, {
+        type: type.trim(), startDate, endDate,
+        dates: `${new Date(`${startDate}T00:00:00`).toLocaleDateString()} - ${new Date(`${endDate}T00:00:00`).toLocaleDateString()}`,
+        reason: reason.trim(),
+    });
+    if (leave.email) DB.notifications.unshift({
+        id: `leave-edit-${Date.now()}`, target: leave.email, title: "Leave request updated by HR",
+        message: `Your ${leave.type} leave request details were updated by HR.`, createdAt: new Date().toISOString(), readBy: [],
+    });
+    if (saveDB()) {
         renderLeaves();
         renderAdminNotifications();
     }
@@ -298,7 +340,7 @@ function renderAdminDataViews() {
 
     // Update KPI dashboard numbers
     document.getElementById("kpiTotalUsers").textContent = DB.users.length;
-    document.getElementById("kpiPresent").textContent = DB.attendance.filter(a => a.status === "Present").length;
+    document.getElementById("kpiPresent").textContent = DB.attendance.filter(a => ["Present", "Late"].includes(a.status)).length;
     document.getElementById("kpiTickets").textContent = DB.tickets.length;
 }
 
@@ -636,6 +678,7 @@ window.onload = function () {
 
     renderDirectory();
     renderAttendance();
+    window.setInterval(renderAttendance, 60000);
     renderLeaves();
     renderNoticeBoard();
     renderAdminDataViews();

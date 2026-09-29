@@ -65,6 +65,18 @@ function timeLabel(date) {
 	return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
+function elapsedTime(record, now = new Date()) {
+	const startedAt = record.checkInAt ? new Date(record.checkInAt) : null;
+	if (!startedAt || Number.isNaN(startedAt.getTime())) return record.hours ? `${Number(record.hours).toFixed(2)} hours` : "0h 0m";
+	const endedAt = record.checkOutAt ? new Date(record.checkOutAt) : record.out ? new Date(`${record.date}T${record.out}`) : now;
+	const elapsedMinutes = Math.max(0, Math.floor((endedAt - startedAt) / 60000));
+	return `${Math.floor(elapsedMinutes / 60)}h ${elapsedMinutes % 60}m`;
+}
+
+function isLateCheckIn(date) {
+	return date.getHours() > 10 || (date.getHours() === 10 && date.getMinutes() > 30);
+}
+
 function dateLabel(value) {
 	if (!value) return "Not set";
 	const date = new Date(`${value}T00:00:00`);
@@ -92,7 +104,7 @@ function renderDashboard() {
 	document.getElementById("welcome-user-name").textContent = employee.name || employeeName;
 	document.getElementById("employee-designation").textContent = employee.designation || "Employee";
 	document.getElementById("employee-department").textContent = employee.dept || "General";
-	document.getElementById("employee-present-days").textContent = attendance.filter((record) => record.status === "Present").length;
+	document.getElementById("employee-present-days").textContent = attendance.filter((record) => ["Present", "Late"].includes(record.status)).length;
 	document.getElementById("employee-leave-balance").textContent = `${leaveBalance} days`;
 	document.getElementById("employee-leave-count").textContent = leaves.filter((leave) => leave.status === "Pending").length;
 	document.getElementById("employee-unread-count").textContent = unread;
@@ -102,7 +114,7 @@ function renderDashboard() {
 
 	const recentAttendance = attendance.slice(0, 5);
 	document.getElementById("employee-attendance-list").innerHTML = recentAttendance.map((record) => `
-		<tr><td>${escapeHTML(dateLabel(record.date))}</td><td>${escapeHTML(record.in || "-")}</td><td>${escapeHTML(record.out || "-")}</td><td><span class="status-badge ${record.status === "Present" ? "status-active" : "status-pending"}">${escapeHTML(record.status || "Present")}</span></td></tr>
+		<tr><td>${escapeHTML(dateLabel(record.date))}</td><td>${escapeHTML(record.in || "-")}</td><td>${escapeHTML(record.out || "-")}</td><td><span class="status-badge ${record.status === "Present" || record.status === "Late" ? "status-active" : "status-pending"}">${escapeHTML(record.status || "Present")}</span></td></tr>
 	`).join("") || '<tr><td colspan="4" class="employee-empty">No attendance records yet.</td></tr>';
 
 	renderAttendance(attendance);
@@ -131,16 +143,18 @@ function renderAttendance(attendance = getAttendance()) {
 	const status = document.getElementById("employee-attendance-today-status");
 	const checkIn = document.getElementById("employee-check-in");
 	const checkOut = document.getElementById("employee-check-out");
+	document.getElementById("employee-live-clock").textContent = `Current time: ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`;
 	if (todayRecord) {
-		status.textContent = todayRecord.out ? `Checked in at ${todayRecord.in}; checked out at ${todayRecord.out}.` : `Checked in at ${todayRecord.in}. Your shift is in progress.`;
+		status.textContent = todayRecord.out ? `Checked in at ${todayRecord.in}; checked out at ${todayRecord.out}.${todayRecord.status === "Late" ? " Late arrival." : ""}` : `Checked in at ${todayRecord.in}. Your shift is in progress.${todayRecord.status === "Late" ? " Late arrival (after 10:30 AM)." : ""}`;
 	} else {
 		status.textContent = "No attendance recorded yet.";
 	}
+	document.getElementById("employee-worked-time").textContent = `Worked today: ${todayRecord ? elapsedTime(todayRecord) : "0h 0m"}`;
 	checkIn.disabled = Boolean(todayRecord);
 	checkOut.disabled = !todayRecord || Boolean(todayRecord.out);
 	const filteredAttendance = attendance.filter((record) => !monthFilter || record.date.startsWith(monthFilter));
 	document.getElementById("employee-attendance-history").innerHTML = filteredAttendance.map((record) => `
-		<tr><td>${escapeHTML(dateLabel(record.date))}</td><td>${escapeHTML(record.in || "-")}</td><td>${escapeHTML(record.out || "-")}</td><td>${escapeHTML(record.hours || "-")}</td><td><span class="status-badge ${record.status === "Present" ? "status-active" : "status-pending"}">${escapeHTML(record.status || "Present")}</span></td></tr>
+		<tr><td>${escapeHTML(dateLabel(record.date))}</td><td>${escapeHTML(record.in || "-")}</td><td>${escapeHTML(record.out || "-")}</td><td>${escapeHTML(record.checkInAt ? elapsedTime(record) : record.hours || "-")}</td><td><span class="status-badge ${record.status === "Present" || record.status === "Late" ? "status-active" : "status-pending"}">${escapeHTML(record.status || "Present")}</span></td></tr>
 	`).join("") || '<tr><td colspan="5" class="employee-empty">No attendance records for this period.</td></tr>';
 }
 
@@ -149,7 +163,7 @@ function checkIn() {
 	const date = localDateKey();
 	if (attendance.some((record) => isMine(record) && record.date === date)) return;
 	const now = new Date();
-	attendance.unshift({ id: `attendance-${activeEmail}-${date}`, userId: employee.id, email: activeEmail, name: employee.name, date, in: timeLabel(now), out: "", checkInAt: now.toISOString(), status: "Present" });
+	attendance.unshift({ id: `attendance-${activeEmail}-${date}`, userId: employee.id, email: activeEmail, name: employee.name, date, in: timeLabel(now), out: "", checkInAt: now.toISOString(), status: isLateCheckIn(now) ? "Late" : "Present" });
 	addNotification(activeEmail, "Attendance checked in", `You checked in at ${timeLabel(now)}.`);
 	if (saveDatabase()) renderDashboard();
 }
@@ -170,7 +184,7 @@ function renderLeaves(leaves = getEmployeeLeaves()) {
 	const filter = document.getElementById("employee-leave-filter").value;
 	const filteredLeaves = leaves.filter((leave) => filter === "all" || leave.status === filter);
 	document.getElementById("employee-leave-list").innerHTML = filteredLeaves.map((leave) => `
-		<tr><td>${escapeHTML(leave.dates || `${dateLabel(leave.startDate)} - ${dateLabel(leave.endDate)}`)}</td><td>${escapeHTML(leave.type)}</td><td>${escapeHTML(leave.reason)}</td><td><span class="status-badge ${leave.status === "Approved" ? "status-active" : "status-pending"}">${escapeHTML(leave.status)}</span></td><td>${leave.status === "Pending" ? `<button class="btn-action" onclick="cancelLeave('${escapeHTML(leave.id)}')">Cancel</button>` : ""}</td></tr>
+		<tr><td>${escapeHTML(leave.dates || `${dateLabel(leave.startDate)} - ${dateLabel(leave.endDate)}`)}</td><td>${escapeHTML(leave.type)}</td><td>${escapeHTML(leave.reason)}</td><td><span class="status-badge ${leave.status === "Approved" ? "status-active" : "status-pending"}">${escapeHTML(leave.status)}</span></td><td>${leave.status === "Pending" ? `<button class="btn-action" onclick="editLeave('${escapeHTML(leave.id)}')">Edit</button> <button class="btn-action" onclick="cancelLeave('${escapeHTML(leave.id)}')">Cancel</button>` : ""}</td></tr>
 	`).join("") || '<tr><td colspan="5" class="employee-empty">No leave requests found.</td></tr>';
 }
 
@@ -215,6 +229,31 @@ function cancelLeave(id) {
 	const leave = getEmployeeLeaves().find((item) => item.id === id && item.status === "Pending");
 	if (!leave || !window.confirm("Cancel this pending leave request?")) return;
 	DB.leaves = DB.leaves.filter((item) => item.id !== id);
+	if (saveDatabase()) renderDashboard();
+}
+
+function editLeave(id) {
+	const leave = getEmployeeLeaves().find((item) => item.id === id && item.status === "Pending");
+	if (!leave) return;
+	const type = window.prompt("Leave type:", leave.type || "Casual Leave");
+	if (type === null || !type.trim()) return;
+	const startDate = window.prompt("Start date (YYYY-MM-DD):", leave.startDate || "");
+	if (startDate === null) return;
+	const endDate = window.prompt("End date (YYYY-MM-DD):", leave.endDate || "");
+	if (endDate === null) return;
+	const reason = window.prompt("Reason:", leave.reason || "");
+	if (reason === null || !reason.trim()) return;
+	if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(startDate) || !/^\\d{4}-\\d{2}-\\d{2}$/.test(endDate) || endDate < startDate || startDate < localDateKey()) {
+		window.alert("Enter valid leave dates today or later, with the end date on or after the start date.");
+		return;
+	}
+	const overlap = getEmployeeLeaves().some((item) => item.id !== id && item.status !== "Rejected" && startDate <= item.endDate && endDate >= item.startDate);
+	if (overlap) {
+		window.alert("These dates overlap another leave request.");
+		return;
+	}
+	Object.assign(leave, { type: type.trim(), startDate, endDate, dates: `${dateLabel(startDate)} - ${dateLabel(endDate)}`, reason: reason.trim() });
+	addNotification("admin", "Leave request updated", `${employee.name} updated a pending leave request.`);
 	if (saveDatabase()) renderDashboard();
 }
 
@@ -333,6 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("employee-leave-start").addEventListener("change", (event) => {
 		document.getElementById("employee-leave-end").min = event.target.value || localDateKey();
 	});
+	window.setInterval(() => renderAttendance(), 1000);
 	renderDashboard();
 	switchSection(location.hash.slice(1) || "overview");
 	window.addEventListener("storage", (event) => {

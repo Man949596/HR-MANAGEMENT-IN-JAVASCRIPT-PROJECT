@@ -123,6 +123,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 .getElementById("signup-email")
                 .value.trim()
                 .toLowerCase();
+            const selectedRole = document.getElementById("signup-role").value;
+            if (selectedRole !== "employee") {
+                showAlert("Admin accounts are created by your HR administrator. Please sign up as an employee.", "error");
+                return;
+            }
             const role = "employee";
             const password = document.getElementById("signup-password").value;
 
