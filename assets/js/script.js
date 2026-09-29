@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const header = document.getElementById('main-header');
-    window.addEventListener('scroll', function () { 
+    if (header) window.addEventListener('scroll', function () {
         if (window.scrollY > 40) { 
             header.classList.add('shadow-md');
         } else {
@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            localStorage.clear();
-            window.location.href = 'index.html';
+            ['userRole', 'userEmail', 'userName', 'isLoggedIn'].forEach(key => localStorage.removeItem(key));
+            window.location.href = window.location.pathname.includes('/employee-dashboard/') ? '../signin.html' : 'signin.html';
         });
     }
 
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function showToast(title, message) { 
     const alertBox = document.createElement('div'); 
-    alertBox.className = 'fixed bottom-6 right-6 bg-tealDark text-white border-2 border-goldAccent p-4 sm:p-5 rounded-2xl shadow-2xl z-50 flex items-center gap-4 transition-all duration-500 transform translate-y-10 opacity-0 max-w-sm'; //[cite: 4]
+    alertBox.className = 'fixed bottom-6 right-6 bg-tealDark text-white border-2 border-goldAccent p-4 sm:p-5 rounded-2xl shadow-2xl z-50 flex items-center gap-4 transition-all duration-500 transform translate-y-10 opacity-0 max-w-sm';
     alertBox.innerHTML = `
         <div class="w-10 h-10 rounded-full bg-goldAccent text-tealDeep flex items-center justify-center font-bold text-lg flex-shrink-0">
             <i class="fa-solid fa-check"></i>
@@ -275,4 +275,3 @@ function prevSlide() {
     let prev = (currentSlide - 1 + slides.length) % slides.length;
     setSlide(prev); 
 }
-

@@ -589,6 +589,7 @@ img {
             var(--tealDark),
             var(--tealLight),
             var(--goldHover));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -3008,4 +3009,278 @@ img {
     font-size: 0.75rem;
     padding: 0.35rem 0.75rem;
     border-radius: 0.375rem;
+}
+
+/* Employee portal extensions */
+.employee-welcome {
+    background: linear-gradient(115deg, var(--tealDeep), var(--tealDark) 68%, #17695a);
+    border-radius: 0.75rem;
+    min-height: 170px;
+}
+
+.employee-eyebrow {
+    color: var(--goldAccent);
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+}
+
+.employee-quick-actions,
+.employee-clock-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.employee-quick-link {
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.employee-quick-link i {
+    color: var(--goldAccent);
+    margin-left: 0.35rem;
+}
+
+.employee-panel:not(.hidden) {
+    animation: employee-enter 180ms ease-out both;
+}
+
+@keyframes employee-enter {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.employee-overview-grid {
+    align-items: start;
+}
+
+.employee-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.employee-section-heading > a {
+    color: var(--tealLight);
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.employee-section-heading .text-lg {
+    margin-bottom: 0;
+}
+
+.employee-feed,
+.employee-task-list,
+.employee-payslip-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.employee-feed-item,
+.employee-task,
+.employee-payslip {
+    border: 1px solid var(--borderLight);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #fff;
+}
+
+.employee-feed-item h3,
+.employee-task h3,
+.employee-payslip h3 {
+    color: var(--tealDark);
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin: 0.25rem 0;
+}
+
+.employee-feed-item p,
+.employee-task p,
+.employee-payslip p {
+    color: var(--textGray);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+}
+
+.employee-unread {
+    border-left: 3px solid var(--goldAccent);
+}
+
+.employee-empty {
+    color: #6b7280;
+    font-size: 0.85rem;
+    padding: 1rem 0.5rem;
+}
+
+.employee-attendance-today,
+.employee-profile-heading,
+.employee-task,
+.employee-payslip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.employee-attendance-today h2 {
+    margin-bottom: 0.25rem;
+}
+
+.employee-month-filter,
+.employee-status-filter {
+    max-width: 190px;
+}
+
+.employee-leave-form,
+.employee-profile-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+    gap: 1rem;
+}
+
+.employee-leave-form .form-group,
+.employee-profile-form .form-group {
+    min-width: 0;
+}
+
+.employee-reason-field {
+    grid-column: 1 / -1;
+}
+
+.employee-submit-leave {
+    justify-self: start;
+}
+
+.employee-profile-heading {
+    justify-content: flex-start;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--borderLight);
+}
+
+.employee-profile-avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: 2px solid var(--goldAccent);
+    object-fit: cover;
+}
+
+.employee-profile-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    padding-top: 1.25rem;
+}
+
+.employee-profile-facts div {
+    min-width: 0;
+}
+
+.employee-profile-facts span,
+.employee-profile-facts strong {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.employee-profile-facts span {
+    color: var(--textGray);
+    font-size: 0.72rem;
+}
+
+.employee-profile-facts strong {
+    color: var(--tealDark);
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+}
+
+.employee-task {
+    align-items: flex-start;
+}
+
+.employee-task small {
+    color: var(--textGray);
+    display: block;
+    font-size: 0.7rem;
+    margin-top: 0.4rem;
+}
+
+.employee-task-status {
+    flex: 0 0 150px;
+}
+
+.employee-payslip .btn-action {
+    flex-shrink: 0;
+}
+
+.employee-clock-actions .btn:disabled,
+.employee-task-status:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+@media (max-width: 639px) {
+    .dashboard-content {
+        padding: 1rem;
+    }
+
+    .employee-welcome {
+        padding: 1.25rem;
+    }
+
+    .employee-quick-actions,
+    .employee-clock-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .employee-leave-form,
+    .employee-profile-form,
+    .employee-profile-facts {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .employee-reason-field {
+        grid-column: auto;
+    }
+
+    .employee-attendance-today,
+    .employee-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .employee-task,
+    .employee-payslip {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .employee-task-status,
+    .employee-month-filter,
+    .employee-status-filter {
+        max-width: none;
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    .dashboard-table {
+        min-width: 560px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .employee-panel:not(.hidden) {
+        animation: none;
+    }
 }

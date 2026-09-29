@@ -1,4 +1,87 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const databaseKey = "EDUHR_SYSTEM_DB_V2";
+    const defaultAccounts = [
+        { name: "HR Administrator", email: "admin@eduhr.com", role: "admin", password: "Admin123!" },
+        { name: "Alan Turing", email: "alan.t@eduhr.com", role: "employee", password: "Employee123!" },
+    ];
+
+    function readArray(key) {
+        try {
+            const value = JSON.parse(localStorage.getItem(key) || "[]");
+            return Array.isArray(value) ? value : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function readDatabase() {
+        try {
+            const database = JSON.parse(localStorage.getItem(databaseKey) || "{}");
+            return database && typeof database === "object" && !Array.isArray(database) ? database : {};
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function saveDatabase(database) {
+        try {
+            localStorage.setItem(databaseKey, JSON.stringify(database));
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    const initialUsers = readArray("registeredUsers");
+    defaultAccounts.forEach((account) => {
+        if (!initialUsers.some((user) => user.email === account.email)) initialUsers.push(account);
+    });
+    try {
+        localStorage.setItem("registeredUsers", JSON.stringify(initialUsers));
+    } catch (error) {
+    }
+
+    const initialDatabase = readDatabase();
+    try {
+        const legacyDatabase = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB") || "{}");
+        ["users", "attendance", "leaves", "notifications", "auditLogs"].forEach((key) => {
+            if (!Array.isArray(legacyDatabase[key])) return;
+            initialDatabase[key] = Array.isArray(initialDatabase[key]) ? initialDatabase[key] : [];
+            legacyDatabase[key].forEach((record) => {
+                const isDuplicate = record.id && initialDatabase[key].some((item) => item.id === record.id);
+                if (!isDuplicate) initialDatabase[key].push(record);
+            });
+        });
+    } catch (error) {
+    }
+    initialDatabase.users = Array.isArray(initialDatabase.users) ? initialDatabase.users : [];
+    initialDatabase.attendance = Array.isArray(initialDatabase.attendance) ? initialDatabase.attendance : [];
+    initialDatabase.leaves = Array.isArray(initialDatabase.leaves) ? initialDatabase.leaves : [];
+    initialDatabase.notifications = Array.isArray(initialDatabase.notifications) ? initialDatabase.notifications : [];
+    initialDatabase.announcements = Array.isArray(initialDatabase.announcements) ? initialDatabase.announcements : [];
+    initialDatabase.notifications.forEach((item) => {
+        if (item.target || item.title === "Welcome Admin") return;
+        if (!initialDatabase.announcements.some((announcement) => announcement.id === item.id)) {
+            initialDatabase.announcements.push({ ...item, createdAt: item.createdAt || new Date().toISOString() });
+        }
+    });
+    initialUsers.forEach((account) => {
+        if (!initialDatabase.users.some((user) => user.email === account.email)) {
+            initialDatabase.users.push({
+                id: `account-${account.email}`,
+                name: account.name,
+                role: account.role === "admin" ? "Admin" : "Employee",
+                dept: "General",
+                designation: account.role === "admin" ? "Administrator" : "Employee",
+                email: account.email,
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
+                joiningDate: "2026-01-01",
+                status: "Active",
+            });
+        }
+    });
+    saveDatabase(initialDatabase);
+
     function showAlert(message, type = "error") {
         const alertBox = document.getElementById("auth-alert");
         if (alertBox) {
@@ -40,17 +123,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 .getElementById("signup-email")
                 .value.trim()
                 .toLowerCase();
-            const role = document.getElementById("signup-role").value;
+            const role = "employee";
             const password = document.getElementById("signup-password").value;
 
-            let users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
-            const systemDb = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || {
-                users: [],
-                attendance: [],
-                leaves: [],
-                notifications: [],
-                auditLogs: [],
-            };
+            const users = readArray("registeredUsers");
+            const systemDb = readDatabase();
             if ((systemDb.deletedUserEmails || []).includes(email)) {
                 showAlert("This account was deleted by an administrator and cannot be registered again.", "error");
                 return;
@@ -69,19 +146,30 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             users.push(newUser);
-            localStorage.setItem("registeredUsers", JSON.stringify(users));
+            try {
+                localStorage.setItem("registeredUsers", JSON.stringify(users));
+            } catch (error) {
+                showAlert("Your browser could not save this account. Check available storage and try again.", "error");
+                return;
+            }
 
             systemDb.users = Array.isArray(systemDb.users) ? systemDb.users : [];
             systemDb.users.push({
-                id: `account-${Date.now()}`,
+                id: `account-${email}`,
                 name,
-                role: role === "admin" ? "Admin" : role === "student" ? "Student" : "Employee",
+                role: "Employee",
                 dept: "General",
+                designation: "Employee",
                 email,
                 avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
+                joiningDate: new Date().toISOString().slice(0, 10),
+                status: "Active",
             });
             addAuthNotification(systemDb, "signup", name, email, role);
-            localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(systemDb));
+            if (!saveDatabase(systemDb)) {
+                showAlert("Your account could not be saved. Check available browser storage and try again.", "error");
+                return;
+            }
 
             localStorage.setItem(
                 "signupSuccess",
@@ -110,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = document.getElementById("signin-password").value;
             const selectedRole = document.getElementById("signin-role").value;
 
-            let users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+            const users = readArray("registeredUsers");
 
             const foundUser = users.find(
                 (u) => u.email === email && u.password === password,
@@ -124,31 +212,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            if (foundUser.role !== selectedRole) {
+            const accountRole = String(foundUser.role || "").toLowerCase();
+
+            const systemDb = readDatabase();
+            const deletedEmails = Array.isArray(systemDb.deletedUserEmails) ? systemDb.deletedUserEmails : [];
+            const profile = (Array.isArray(systemDb.users) ? systemDb.users : []).find((user) => user.email === email);
+            if (deletedEmails.includes(email) || profile?.status === "Inactive") {
+                showAlert("This account is inactive. Contact your HR administrator.", "error");
+                return;
+            }
+            if (!['admin', 'employee'].includes(accountRole)) {
+                showAlert("This account role is not supported. Contact your HR administrator.", "error");
+                return;
+            }
+
+            if (accountRole !== selectedRole) {
                 showAlert(
-                    `This account is registered as '${foundUser.role.toUpperCase()}'. Please select the correct role.`,
+                    `This account is registered as '${accountRole.toUpperCase()}'. Please select the correct role.`,
                     "error",
                 );
                 return;
             }
-            localStorage.setItem("userRole", foundUser.role);
+            localStorage.setItem("userRole", accountRole);
             localStorage.setItem("userEmail", foundUser.email);
             localStorage.setItem("userName", foundUser.name);
             localStorage.setItem("isLoggedIn", "true");
 
-            const systemDb = JSON.parse(localStorage.getItem("EDUHR_SYSTEM_DB")) || {};
-            addAuthNotification(systemDb, "login", foundUser.name, foundUser.email, foundUser.role);
+            addAuthNotification(systemDb, "login", foundUser.name, foundUser.email, accountRole);
             systemDb.auditLogs = Array.isArray(systemDb.auditLogs) ? systemDb.auditLogs : [];
-            systemDb.auditLogs.unshift(`[${new Date().toLocaleTimeString()}] ${foundUser.role} ${foundUser.name} logged into portal.`);
-            localStorage.setItem("EDUHR_SYSTEM_DB", JSON.stringify(systemDb));
+            systemDb.auditLogs.unshift(`[${new Date().toLocaleTimeString()}] ${accountRole} ${foundUser.name} logged into portal.`);
+            if (!saveDatabase(systemDb)) {
+                showAlert("Login succeeded, but activity could not be saved to browser storage.", "error");
+                return;
+            }
 
             showAlert("Login successful! Redirecting...", "success");
 
             setTimeout(() => {
-                if (foundUser.role === "admin") {
+                if (accountRole === "admin") {
                     window.location.href = "employee-dashboard/admin.html";
-                } else if (foundUser.role === "student") {
-                    window.location.href = "employee-dashboard/student.html";
                 } else {
                     window.location.href = "employee-dashboard/index.html";
                 }

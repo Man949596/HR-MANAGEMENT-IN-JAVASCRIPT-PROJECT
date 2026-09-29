@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard</title>
+    <script>
+        document.documentElement.style.visibility = "hidden";
+        if (localStorage.getItem("isLoggedIn") !== "true" || localStorage.getItem("userRole") !== "employee" || !localStorage.getItem("userEmail")) {
+            if (localStorage.getItem("isLoggedIn") === "true" && localStorage.getItem("userRole") === "admin") {
+                window.location.replace("admin.html");
+            } else {
+                window.location.replace("../signin.html");
+            }
+        } else {
+            document.documentElement.style.visibility = "visible";
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -40,20 +52,36 @@
             </a>
             <a href="#attendance" class="sidebar-link" data-section="attendance">
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>Attendance & Leave</span>
+                <span>Attendance</span>
+            </a>
+            <a href="#leaves" class="sidebar-link" data-section="leaves">
+                <i class="fa-solid fa-plane-departure"></i>
+                <span>Leave Requests</span>
+            </a>
+            <a href="#profile" class="sidebar-link" data-section="profile">
+                <i class="fa-solid fa-id-card"></i>
+                <span>My Profile</span>
             </a>
             <a href="#payslips" class="sidebar-link" data-section="payslips">
                 <i class="fa-solid fa-file-invoice-dollar"></i>
-                <span>Pay Slips</span>
+                <span>Payslips</span>
+            </a>
+            <a href="#announcements" class="sidebar-link" data-section="announcements">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Announcements</span>
+            </a>
+            <a href="#tasks" class="sidebar-link" data-section="tasks">
+                <i class="fa-solid fa-list-check"></i>
+                <span>My Tasks</span>
+            </a>
+            <a href="#documents" class="sidebar-link" data-section="documents">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>Documents</span>
             </a>
             <a href="#notifications" class="sidebar-link" data-section="notifications">
                 <i class="fa-solid fa-tasks"></i>
                 <span>Notifications</span>
                 <span id="sidebar-notification-count" class="notification-count hidden">0</span>
-            </a>
-            <a href="#settings" class="sidebar-link" data-section="settings">
-                <i class="fa-solid fa-gear"></i>
-                <span>Account Settings</span>
             </a>
         </nav>
 
@@ -75,7 +103,7 @@
             </div>
 
             <div class="header-right-actions">
-                <button class="dash-icon-btn">
+                <button id="employee-notification-button" class="dash-icon-btn" aria-label="View notifications">
                     <i class="fa-regular fa-bell"></i>
                     <span id="employee-notification-dot" class="notification-dot hidden"></span>
                 </button>
@@ -87,38 +115,67 @@
 
         <main class="dashboard-content">
 
-            <div class="welcome-banner">
+            <div class="welcome-banner employee-welcome">
                 <div>
-                    <h2>Welcome     <span id="welcome-user-name">Employee Dashboard</span></h2>
-                    <p>Live updates from your HR administration team.</p>
+                    <p class="employee-eyebrow">EMPLOYEE WORKSPACE</p>
+                    <h2>Welcome, <span id="welcome-user-name">Employee</span></h2>
+                    <p><span id="employee-designation">Your HR workspace</span><span aria-hidden="true"> · </span><span id="employee-department"></span></p>
+                </div>
+                <div class="employee-quick-actions">
+                    <a class="btn btn-gold" href="#attendance" data-section="attendance"><i class="fa-solid fa-clock mr-2"></i>Clock in</a>
+                    <a class="employee-quick-link" href="#leaves" data-section="leaves">Request leave <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
-            <section id="overview" class="employee-section">
+            <section id="overview" class="employee-section employee-panel">
                 <div class="stats-grid">
                     <div class="stat-card"><div class="stat-icon bg-teal"><i class="fa-solid fa-calendar-check"></i></div><div><div class="text-sm text-gray-500">Present Days</div><div id="employee-present-days" class="stat-val-dark">0</div></div></div>
-                    <div class="stat-card"><div class="stat-icon bg-gold"><i class="fa-solid fa-file-lines"></i></div><div><div class="text-sm text-gray-500">Leave Requests</div><div id="employee-leave-count" class="stat-val-dark">0</div></div></div>
-                    <div class="stat-card"><div class="stat-icon bg-teal"><i class="fa-solid fa-bell"></i></div><div><div class="text-sm text-gray-500">Unread Notices</div><div id="employee-unread-count" class="stat-val-dark">0</div></div></div>
+                    <div class="stat-card"><div class="stat-icon bg-gold"><i class="fa-solid fa-umbrella-beach"></i></div><div><div class="text-sm text-gray-500">Leave Balance</div><div id="employee-leave-balance" class="stat-val-dark">20 days</div></div></div>
+                    <div class="stat-card"><div class="stat-icon bg-teal"><i class="fa-solid fa-hourglass-half"></i></div><div><div class="text-sm text-gray-500">Pending Requests</div><div id="employee-leave-count" class="stat-val-dark">0</div></div></div>
+                    <div class="stat-card"><div class="stat-icon bg-gold"><i class="fa-solid fa-bell"></i></div><div><div class="text-sm text-gray-500">Unread Notifications</div><div id="employee-unread-count" class="stat-val-dark">0</div></div></div>
                 </div>
-                <div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">Recent Attendance</h2><div class="overflow-x-auto"><table class="dashboard-table"><thead><tr><th>Date</th><th>Clock In</th><th>Clock Out</th><th>Status</th></tr></thead><tbody id="employee-attendance-list"></tbody></table></div></div>
+                <div class="dash-grid-2 employee-overview-grid">
+                    <div class="dashboard-table-container">
+                        <div class="employee-section-heading"><h2 class="text-lg font-bold text-tealDark">Recent Attendance</h2><a href="#attendance" data-section="attendance">View history</a></div>
+                        <div class="overflow-x-auto"><table class="dashboard-table"><thead><tr><th>Date</th><th>Clock In</th><th>Clock Out</th><th>Status</th></tr></thead><tbody id="employee-attendance-list"></tbody></table></div>
+                    </div>
+                    <div class="dashboard-table-container">
+                        <div class="employee-section-heading"><h2 class="text-lg font-bold text-tealDark">Latest Announcements</h2><a href="#announcements" data-section="announcements">View all</a></div>
+                        <div id="employee-announcement-preview" class="employee-feed"></div>
+                    </div>
+                </div>
             </section>
 
-            <section id="attendance" class="employee-section hidden">
+            <section id="attendance" class="employee-section employee-panel hidden">
+                <div class="dashboard-table-container employee-attendance-today">
+                    <div><span class="employee-eyebrow">TODAY</span><h2 class="text-lg font-bold text-tealDark">Attendance</h2><p id="employee-attendance-today-status" class="text-sm text-gray-500">No attendance recorded yet.</p></div>
+                    <div class="employee-clock-actions"><button id="employee-check-in" class="btn btn-teal"><i class="fa-solid fa-right-to-bracket mr-2"></i>Check in</button><button id="employee-check-out" class="btn btn-outline"><i class="fa-solid fa-right-from-bracket mr-2"></i>Check out</button></div>
+                </div>
+                <div class="dashboard-table-container"><div class="employee-section-heading"><h2 class="text-lg font-bold text-tealDark">Attendance History</h2><input id="employee-attendance-filter" type="month" class="form-input employee-month-filter" aria-label="Filter attendance by month"></div><div class="overflow-x-auto"><table class="dashboard-table"><thead><tr><th>Date</th><th>Clock In</th><th>Clock Out</th><th>Hours</th><th>Status</th></tr></thead><tbody id="employee-attendance-history"></tbody></table></div></div>
+            </section>
+
+            <section id="leaves" class="employee-section employee-panel hidden">
                 <div class="dashboard-table-container">
                     <h2 class="text-lg font-bold text-tealDark mb-4">Apply for Leave</h2>
-                    <form id="employee-leave-form" class="grid gap-3 md:grid-cols-4">
-                        <select id="employee-leave-type" class="form-select" required><option>Casual Leave</option><option>Sick Leave</option><option>Academic Duty</option></select>
-                        <input id="employee-leave-start" type="date" class="form-input" required>
-                        <input id="employee-leave-end" type="date" class="form-input" required>
-                        <input id="employee-leave-reason" class="form-input" placeholder="Reason" required>
-                        <button class="btn btn-teal" type="submit">Submit Request</button>
+                    <form id="employee-leave-form" class="employee-leave-form">
+                        <label class="form-group"><span class="form-label">Leave type</span><select id="employee-leave-type" class="form-select" required><option>Casual Leave</option><option>Sick Leave</option><option>Annual Leave</option><option>Unpaid Leave</option></select></label>
+                        <label class="form-group"><span class="form-label">Start date</span><input id="employee-leave-start" type="date" class="form-input" required></label>
+                        <label class="form-group"><span class="form-label">End date</span><input id="employee-leave-end" type="date" class="form-input" required></label>
+                        <label class="form-group employee-reason-field"><span class="form-label">Reason</span><input id="employee-leave-reason" class="form-input" placeholder="Add a short reason" required maxlength="300"></label>
+                        <button class="btn btn-teal employee-submit-leave" type="submit">Submit request</button>
                     </form>
                 </div>
-                <div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">My Leave Requests</h2><div class="overflow-x-auto"><table class="dashboard-table"><thead><tr><th>Dates</th><th>Type</th><th>Reason</th><th>Status</th></tr></thead><tbody id="employee-leave-list"></tbody></table></div></div>
+                <div class="dashboard-table-container"><div class="employee-section-heading"><h2 class="text-lg font-bold text-tealDark">My Leave Requests</h2><select id="employee-leave-filter" class="form-select employee-status-filter" aria-label="Filter leave requests"><option value="all">All requests</option><option>Pending</option><option>Approved</option><option>Rejected</option></select></div><div class="overflow-x-auto"><table class="dashboard-table"><thead><tr><th>Dates</th><th>Type</th><th>Reason</th><th>Status</th><th></th></tr></thead><tbody id="employee-leave-list"></tbody></table></div></div>
             </section>
-            <section id="payslips" class="employee-section hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-2">Pay Slips</h2><p class="text-sm text-gray-500">Your payroll records will appear here when published by HR.</p></div></section>
-            <section id="notifications" class="employee-section hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">HR Notifications</h2><div id="employee-notification-list" class="space-y-3"></div></div></section>
-            <section id="settings" class="employee-section hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-2">Account</h2><p class="text-sm text-gray-500">Signed in as <strong id="employee-account-email"></strong>.</p></div></section>
+            <section id="profile" class="employee-section employee-panel hidden">
+                <div class="dashboard-table-container"><div class="employee-profile-heading"><img id="employee-profile-avatar" src="" alt="Employee profile" class="employee-profile-avatar"><div><span class="employee-eyebrow">MY PROFILE</span><h2 id="employee-profile-name" class="text-xl font-bold text-tealDark"></h2><p id="employee-profile-role" class="text-sm text-gray-500"></p></div></div><div id="employee-profile-facts" class="employee-profile-facts"></div></div>
+                <div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">Contact details</h2><form id="employee-profile-form" class="employee-profile-form"><label class="form-group"><span class="form-label">Phone</span><input id="employee-phone" class="form-input" type="tel" maxlength="30"></label><label class="form-group"><span class="form-label">Address</span><input id="employee-address" class="form-input" maxlength="160"></label><label class="form-group"><span class="form-label">Emergency contact</span><input id="employee-emergency-contact" class="form-input" maxlength="100"></label><button class="btn btn-teal" type="submit">Save contact details</button></form></div>
+            </section>
+            <section id="payslips" class="employee-section employee-panel hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">My Payslips</h2><div id="employee-payslip-list" class="employee-payslip-list"></div></div></section>
+            <section id="announcements" class="employee-section employee-panel hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">HR Announcements</h2><div id="employee-announcement-list" class="employee-feed"></div></div></section>
+            <section id="tasks" class="employee-section employee-panel hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">My Tasks</h2><div id="employee-task-list" class="employee-task-list"></div></div></section>
+            <section id="documents" class="employee-section employee-panel hidden"><div class="dashboard-table-container"><h2 class="text-lg font-bold text-tealDark mb-4">My HR Documents</h2><div id="employee-document-list" class="employee-document-list"></div></div></section>
+            <section id="notifications" class="employee-section employee-panel hidden"><div class="dashboard-table-container"><div class="employee-section-heading"><h2 class="text-lg font-bold text-tealDark">Notifications</h2><button id="employee-mark-read" class="btn-action">Mark all read</button></div><div id="employee-notification-list" class="employee-feed"></div></div></section>
 
         </main>
     </div>
