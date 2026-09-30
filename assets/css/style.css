@@ -3531,3 +3531,378 @@ body.sidebar-open {
         animation: none;
     }
 }
+
+/* Align the employee portal shell with the admin dashboard. */
+.employee-dashboard {
+    --employee-primary: #0284c7;
+    --employee-primary-light: #f0f9ff;
+    background-color: #f8fafc;
+    color: #1e293b;
+    font-family: Inter, "Plus Jakarta Sans", sans-serif;
+}
+
+.employee-dashboard .dashboard-sidebar {
+    width: 256px;
+    padding: 0.75rem;
+    top: 57px;
+    bottom: 0;
+    height: auto;
+    background-color: #ffffff;
+    color: #334155;
+    border-right: 1px solid #e2e8f0;
+}
+
+.employee-dashboard .sidebar-header {
+    padding: 0.5rem 0.5rem 1rem;
+    border-bottom-color: #e2e8f0;
+}
+
+.employee-dashboard .sidebar-header .logo a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.employee-dashboard .employee-brand-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 2.25rem;
+    border-radius: 0.5rem;
+    background-color: #0284c7;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.employee-dashboard .logo-text {
+    color: #1e293b;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.employee-dashboard .text-gold {
+    color: var(--employee-primary);
+}
+
+.employee-dashboard .close-sidebar-btn {
+    color: #64748b;
+}
+
+.employee-dashboard .user-profile-badge {
+    padding: 1rem 0.75rem;
+    border-bottom-color: #e2e8f0;
+}
+
+.employee-dashboard .profile-name {
+    color: #1e293b;
+    font-size: 0.8rem;
+}
+
+.employee-dashboard .role-badge {
+    background-color: var(--employee-primary-light);
+    color: #0369a1;
+}
+
+.employee-dashboard .sidebar-nav {
+    gap: 0.125rem;
+    margin-top: 0.75rem;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.employee-dashboard .employee-nav-label {
+    padding: 0 0.75rem 0.25rem;
+    color: #94a3b8;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.employee-dashboard .sidebar-link {
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.5rem;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.employee-dashboard .sidebar-link i {
+    width: 1.25rem;
+    color: #94a3b8;
+}
+
+.employee-dashboard .sidebar-link:hover,
+.employee-dashboard .sidebar-link.active {
+    background-color: var(--employee-primary-light);
+    color: #0369a1;
+}
+
+.employee-dashboard .sidebar-link:hover i,
+.employee-dashboard .sidebar-link.active i {
+    color: var(--employee-primary);
+}
+
+.employee-dashboard .sidebar-footer {
+    border-top-color: #e2e8f0;
+}
+
+.employee-dashboard .logout-btn {
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+.employee-dashboard .dashboard-main {
+    min-height: 100vh;
+    padding-top: 57px;
+    background-color: #f8fafc;
+}
+
+.employee-dashboard .dashboard-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 60;
+    min-height: 57px;
+    height: 57px;
+    padding: 0.625rem 1rem;
+    border-bottom-color: #e2e8f0;
+    box-shadow: none;
+}
+
+.employee-dashboard .dashboard-header > .flex-center {
+    gap: 0.75rem;
+}
+
+.employee-dashboard .employee-header-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+.employee-dashboard .header-page-title {
+    color: #1e293b;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.employee-dashboard .sidebar-toggle-btn,
+.employee-dashboard .dash-icon-btn {
+    color: #475569;
+}
+
+.employee-dashboard .header-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid #e2e8f0;
+}
+
+.employee-dashboard .employee-header-avatar {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 0.75rem;
+}
+
+.employee-dashboard .employee-header-user strong,
+.employee-dashboard .employee-header-user small {
+    display: block;
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.employee-dashboard .employee-header-user strong {
+    color: #1e293b;
+    font-size: 0.7rem;
+}
+
+.employee-dashboard .employee-header-user small {
+    margin-top: 0.125rem;
+    color: #64748b;
+    font-size: 0.625rem;
+}
+
+.employee-dashboard .dashboard-content {
+    padding: 1.25rem;
+}
+
+.employee-dashboard .employee-welcome {
+    min-height: 0;
+    margin-bottom: 1.5rem;
+    padding: 0 0 1rem;
+    border-radius: 0;
+    border-bottom: 1px solid #e2e8f0;
+    background: transparent;
+    color: #1e293b;
+}
+
+.employee-dashboard .employee-eyebrow {
+    color: #0284c7;
+    font-size: 0.625rem;
+}
+
+.employee-dashboard .employee-welcome h2 {
+    color: #1e293b;
+    font-size: 1.5rem;
+}
+
+.employee-dashboard .employee-welcome p:not(.employee-eyebrow) {
+    color: #64748b;
+}
+
+.employee-dashboard .employee-quick-actions {
+    margin-top: 0;
+}
+
+.employee-dashboard .employee-quick-actions .btn-gold {
+    border-radius: 0.5rem;
+    background-color: var(--employee-primary);
+    color: #ffffff;
+    box-shadow: none;
+}
+
+.employee-dashboard .employee-quick-actions .btn-gold:hover {
+    background-color: #0369a1;
+}
+
+.employee-dashboard .employee-quick-link,
+.employee-dashboard .employee-quick-link i {
+    color: #0369a1;
+}
+
+.employee-dashboard .stats-grid {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.employee-dashboard .stat-card,
+.employee-dashboard .dashboard-table-container {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.employee-dashboard .stat-card {
+    padding: 1rem;
+}
+
+.employee-dashboard .stat-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--employee-primary-light);
+    color: var(--employee-primary);
+    font-size: 1rem;
+}
+
+.employee-dashboard .stat-icon.bg-gold {
+    background-color: #fffbeb;
+    color: #d97706;
+}
+
+.employee-dashboard .stat-val-dark {
+    color: #1e293b;
+    font-size: 1.375rem;
+}
+
+.employee-dashboard .text-tealDark,
+.employee-dashboard .employee-feed-item h3,
+.employee-dashboard .employee-task h3,
+.employee-dashboard .employee-payslip h3 {
+    color: #1e293b;
+}
+
+.employee-dashboard .employee-section-heading > a {
+    color: #0284c7;
+}
+
+.employee-dashboard .employee-feed-item,
+.employee-dashboard .employee-task,
+.employee-dashboard .employee-payslip {
+    border-color: #e2e8f0;
+}
+
+.employee-dashboard .btn-action {
+    background-color: var(--employee-primary-light);
+    color: #0369a1;
+}
+
+@media (min-width: 1024px) {
+    .employee-dashboard .dashboard-main {
+        margin-left: 256px;
+    }
+
+    .employee-dashboard .dashboard-header {
+        padding-left: 1rem;
+    }
+}
+
+@media (max-width: 1023px) {
+    .employee-dashboard .dashboard-sidebar {
+        width: min(256px, calc(100vw - 3rem));
+    }
+}
+
+@media (max-width: 639px) {
+    .employee-dashboard .dashboard-content {
+        padding: 1rem;
+    }
+
+    .employee-dashboard .dashboard-header {
+        gap: 0.5rem;
+        padding-inline: 0.75rem;
+    }
+
+    .employee-dashboard .dashboard-header > .flex-center {
+        min-width: 0;
+        gap: 0.5rem;
+    }
+
+    .employee-dashboard .dashboard-header > .flex-center > * + * {
+        margin-left: 0;
+    }
+
+    .employee-dashboard .employee-header-mark {
+        flex: 0 0 2.25rem;
+    }
+
+    .employee-dashboard .header-page-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .employee-dashboard .header-right-actions {
+        flex: 0 0 auto;
+        gap: 0.5rem;
+    }
+
+    .employee-dashboard .employee-quick-actions {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .employee-dashboard .header-user-info {
+        display: flex;
+        padding-left: 0.5rem;
+    }
+
+    .employee-dashboard .employee-header-user {
+        display: none;
+    }
+}

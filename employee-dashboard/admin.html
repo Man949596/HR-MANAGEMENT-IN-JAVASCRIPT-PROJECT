@@ -56,7 +56,7 @@
         <header class="no-print bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-30 transition-colors duration-200">
             <div class="px-4 py-2.5 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <button id="sidebarToggle" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 lg:hidden">
+                    <button id="sidebarToggle" type="button" aria-label="Open navigation menu" aria-controls="sidebar" aria-expanded="false" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 lg:hidden">
                         <i class="fa-solid fa-bars text-lg"></i>
                     </button>
                     <div class="flex items-center space-x-2">
@@ -98,7 +98,8 @@
         </header>
 
         <div class="flex-1 flex overflow-hidden">
-            <aside id="sidebar" class="no-print w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col justify-between transition-all duration-300 z-20 absolute lg:relative h-[calc(100vh-57px)] -translate-x-full lg:translate-x-0">
+            <button id="sidebarOverlay" type="button" aria-label="Close navigation menu" class="fixed inset-0 z-10 hidden bg-slate-950/40 lg:hidden"></button>
+            <aside id="sidebar" class="no-print fixed top-[57px] bottom-0 z-20 flex w-64 -translate-x-full flex-col justify-between border-r border-slate-200 bg-white transition-transform duration-300 dark:border-slate-700 dark:bg-slate-800 lg:relative lg:top-0 lg:bottom-auto lg:h-[calc(100vh-57px)] lg:translate-x-0">
                 <div class="p-3 overflow-y-auto custom-scrollbar flex-1 space-y-2">
                     <div class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Navigation (16 Features)</div>
                     <nav class="space-y-0.5">

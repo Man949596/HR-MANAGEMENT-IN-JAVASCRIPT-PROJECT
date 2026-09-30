@@ -700,8 +700,24 @@ window.onload = function () {
     renderAdminNotifications();
     renderDocuments();
 
-    document.getElementById("sidebarToggle").addEventListener("click", () => {
-        document.getElementById("sidebar").classList.toggle("-translate-x-full");
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const setSidebarOpen = (isOpen) => {
+        sidebar.classList.toggle("-translate-x-full", !isOpen);
+        sidebarOverlay.classList.toggle("hidden", !isOpen);
+        sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+        sidebarToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        document.body.classList.toggle("overflow-hidden", isOpen);
+    };
+
+    sidebarToggle.addEventListener("click", () => {
+        setSidebarOpen(sidebar.classList.contains("-translate-x-full"));
+    });
+    sidebarOverlay.addEventListener("click", () => setSidebarOpen(false));
+    sidebar.querySelectorAll(".nav-btn").forEach((button) => button.addEventListener("click", () => setSidebarOpen(false)));
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setSidebarOpen(false);
     });
 
     document.getElementById("themeToggle").addEventListener("click", toggleDarkMode);

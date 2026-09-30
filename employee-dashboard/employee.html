@@ -18,7 +18,7 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
@@ -30,7 +30,8 @@
         <div class="sidebar-header">
             <div class="logo">
                 <a href="#">
-                    <span id="portal-brand" class="logo-text text-white">Employee<span class="text-gold">Portal</span></span>
+                    <span class="employee-brand-mark" aria-hidden="true">HR</span>
+                    <span id="portal-brand" class="logo-text text-white">EduHR <span class="text-gold">Portal</span></span>
                 </a>
             </div>
             <button id="close-sidebar-btn" class="close-sidebar-btn">
@@ -46,6 +47,7 @@
         </div>
 
         <nav class="sidebar-nav">
+            <span class="employee-nav-label">WORKSPACE</span>
             <a href="#overview" class="sidebar-link 
             active" data-section="overview">
                 <i class="fa-solid fa-chart-pie"></i>
@@ -100,6 +102,7 @@
                 <button id="mobile-sidebar-toggle" class="sidebar-toggle-btn" type="button" aria-label="Open navigation menu" aria-controls="dashboard-sidebar" aria-expanded="false">
                     <i class="fa-solid fa-bars"></i>
                 </button>
+                <span class="employee-brand-mark employee-header-mark" aria-hidden="true">HR</span>
                 <h1 id="portal-page-title" class="header-page-title">Employee Portal</h1>
             </div>
 
@@ -109,7 +112,8 @@
                     <span id="employee-notification-dot" class="notification-dot hidden"></span>
                 </button>
                 <div class="header-user-info">
-                    <span class="user-greeting">Hello,</span>
+                    <span class="employee-header-avatar" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+                    <span class="employee-header-user"><strong id="employee-header-name">Employee</strong><small>Employee</small></span>
                 </div>
             </div>
         </header>

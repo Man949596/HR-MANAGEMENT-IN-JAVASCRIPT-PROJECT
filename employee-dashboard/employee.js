@@ -101,6 +101,7 @@ function renderDashboard() {
 	const leaveBalance = Math.max(0, Number(employee.leaveBalance ?? 20) - approvedDays);
 
 	document.getElementById("dash-user-name").textContent = employee.name || employeeName;
+	document.getElementById("employee-header-name").textContent = employee.name || employeeName;
 	document.getElementById("welcome-user-name").textContent = employee.name || employeeName;
 	document.getElementById("employee-designation").textContent = employee.designation || "Employee";
 	document.getElementById("employee-department").textContent = employee.dept || "General";
@@ -379,6 +380,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 	document.getElementById("close-sidebar-btn").addEventListener("click", () => setSidebarOpen(false));
 	document.getElementById("sidebar-overlay").addEventListener("click", () => setSidebarOpen(false));
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") setSidebarOpen(false);
+	});
+	window.addEventListener("resize", () => {
+		if (window.innerWidth >= 1024) setSidebarOpen(false);
+	});
 	document.getElementById("employee-check-in").addEventListener("click", checkIn);
 	document.getElementById("employee-check-out").addEventListener("click", checkOut);
 	document.getElementById("employee-attendance-filter").addEventListener("change", () => renderAttendance());
